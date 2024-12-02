@@ -11,24 +11,24 @@ import (
 
 type UserPostgresRepository interface {
 	/* ---------------------------------- User ---------------------------------- */
-	CreateUser(ctx context.Context, entity *model.User) error
+	CreateUser(ctx context.Context, entity *model.User) (*model.User, error)
 
-	UpdateUser(ctx context.Context, entity *model.User) error
+	UpdateUser(ctx context.Context, entity *model.User) (*model.User, error)
 
 	DeleteUser(ctx context.Context, entity *model.User) error
 
-	FindByEmail(ctx context.Context, entity *model.User, email string) error
+	FindByEmail(ctx context.Context, entity *model.User) (*model.User, error)
 
-	FindByUsername(ctx context.Context, entity *model.User, username string) error
+	FindByUsername(ctx context.Context, entity *model.User) (*model.User, error)
 
 	/* --------------------------------- Address -------------------------------- */
-	CreateAddress(ctx context.Context, entity *model.Address) error
+	CreateAddress(ctx context.Context, entity *model.Address) (*model.Address, error)
 
-	UpdateAddress(ctx context.Context, entity *model.Address) error
+	UpdateAddress(ctx context.Context, entity *model.Address) (*model.Address, error)
 
 	DeleteAddress(ctx context.Context, entity *model.Address) error
 
-	FindAddress(ctx context.Context, entity *model.Address, uuid string, id uint) error
+	FindAddress(ctx context.Context, entity *model.Address) (*model.Address, error)
 
 	ListAddress(ctx context.Context, uuid string) ([]model.Address, error)
 }

@@ -19,29 +19,46 @@ func NewUserPostgresRepository(db *gorm.DB) user.UserPostgresRepository {
 }
 
 /* ---------------------------------- User ---------------------------------- */
-func (r UserPostgresRepositoryImpl) CreateUser(ctx context.Context, entity *model.User) error {
-	tx := r.DB.WithContext(ctx)
+func (r UserPostgresRepositoryImpl) CreateUser(ctx context.Context, entity *model.User) (*model.User, error) {
+	// Ensure entity is not nil
+	if entity == nil {
+		return nil, errors.New("UserPostgresRepository.CreateUser: entity cannot be nil")
+	}
 
-	return tx.Transaction(func(tx *gorm.DB) error {
+	tx := r.DB.WithContext(ctx)
+	err := tx.Transaction(func(tx *gorm.DB) error {
 		err := tx.Where("email = ?", entity.Email).Omit("avatar", "phone_number").FirstOrCreate(entity).Error
 
 		if err != nil {
 			return errors.Wrap(err, "UserPostgresRepository.Register.CreateUser")
 		}
+
 		return nil
 	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return entity, nil
 }
 
-func (r UserPostgresRepositoryImpl) UpdateUser(ctx context.Context, entity *model.User) error {
+func (r UserPostgresRepositoryImpl) UpdateUser(ctx context.Context, entity *model.User) (*model.User, error) {
 	tx := r.DB.WithContext(ctx)
 
-	return tx.Transaction(func(tx *gorm.DB) error {
+	err := tx.Transaction(func(tx *gorm.DB) error {
 		err := tx.Model(&model.User{}).Where("user_id = ?", entity.UserID).Updates(entity).Error
 		if err != nil {
 			return errors.Wrap(err, "UserPostgresRepository.Update.UpdateUser")
 		}
 		return nil
 	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return entity, nil
 }
 
 func (r UserPostgresRepositoryImpl) DeleteUser(ctx context.Context, entity *model.User) error {
@@ -65,37 +82,33 @@ func (r UserPostgresRepositoryImpl) DeleteUser(ctx context.Context, entity *mode
 	})
 }
 
-func (r UserPostgresRepositoryImpl) FindByEmail(ctx context.Context, entity *model.User, email string) error {
+func (r UserPostgresRepositoryImpl) FindByEmail(ctx context.Context, entity *model.User) (*model.User, error) {
+	user := new(model.User)
 	tx := r.DB.WithContext(ctx)
-	if tx.Error != nil {
-		return tx.Error
+
+	if err := tx.Where("email = ?", entity.Email).First(user).Error; err != nil {
+		return nil, err
 	}
 
-	if err := tx.Where("email = ?", email).First(entity).Error; err != nil {
-		return err
-	}
-
-	return nil
+	return entity, nil
 }
 
-func (r UserPostgresRepositoryImpl) FindByUsername(ctx context.Context, entity *model.User, username string) error {
+func (r UserPostgresRepositoryImpl) FindByUsername(ctx context.Context, entity *model.User) (*model.User, error) {
+	user := new(model.User)
 	tx := r.DB.WithContext(ctx)
-	if tx.Error != nil {
-		return tx.Error
+
+	if err := tx.Where("email = ?", entity.Email).First(user).Error; err != nil {
+		return nil, errors.Wrap(err, "UserPostgresRepository.Find.FindByUsername")
 	}
 
-	if err := tx.Where("email = ?", username).First(entity).Error; err != nil {
-		return err
-	}
-
-	return nil
+	return entity, nil
 }
 
 /* --------------------------------- Address -------------------------------- */
-func (r UserPostgresRepositoryImpl) CreateAddress(ctx context.Context, entity *model.Address) error {
+func (r UserPostgresRepositoryImpl) CreateAddress(ctx context.Context, entity *model.Address) (*model.Address, error) {
 	tx := r.DB.WithContext(ctx)
 
-	return tx.Transaction(func(tx *gorm.DB) error {
+	err := tx.Transaction(func(tx *gorm.DB) error {
 		err := tx.Where("user_id = ?", entity.UserID).Create(entity).Error
 
 		if err != nil {
@@ -103,17 +116,29 @@ func (r UserPostgresRepositoryImpl) CreateAddress(ctx context.Context, entity *m
 		}
 		return nil
 	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return entity, nil
 }
 
-func (r UserPostgresRepositoryImpl) UpdateAddress(ctx context.Context, entity *model.Address) error {
+func (r UserPostgresRepositoryImpl) UpdateAddress(ctx context.Context, entity *model.Address) (*model.Address, error) {
 	tx := r.DB.WithContext(ctx)
 
-	return tx.Transaction(func(tx *gorm.DB) error {
+	err := tx.Transaction(func(tx *gorm.DB) error {
 		if err := tx.Model(&model.Address{}).Where("id = ? AND user_id = ?", entity.ID, entity.UserID).Error; err != nil {
 			return errors.Wrap(err, "UserPostgresRepository.Update.UpdateAddress")
 		}
 		return nil
 	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return entity, nil
 }
 
 func (r UserPostgresRepositoryImpl) DeleteAddress(ctx context.Context, entity *model.Address) error {
@@ -130,14 +155,16 @@ func (r UserPostgresRepositoryImpl) DeleteAddress(ctx context.Context, entity *m
 	})
 }
 
-func (r UserPostgresRepositoryImpl) FindAddress(ctx context.Context, entity *model.Address, uuid string, id uint) error {
+func (r UserPostgresRepositoryImpl) FindAddress(ctx context.Context, entity *model.Address) (*model.Address, error) {
+	address := new(model.Address)
+
 	tx := r.DB.WithContext(ctx)
 
-	if err := tx.Where("id = ? AND user_id = ?", id, uuid).Take(entity).Error; err != nil {
-		return errors.Wrap(err, "UserPostgresRepository.Find.FindAddress")
+	if err := tx.Where("id = ? AND user_id = ?", entity.ID, entity.UserID).Take(address).Error; err != nil {
+		return nil, errors.Wrap(err, "UserPostgresRepository.Find.FindAddress")
 	}
 
-	return nil
+	return entity, nil
 }
 
 func (r UserPostgresRepositoryImpl) ListAddress(ctx context.Context, uuid string) ([]model.Address, error) {

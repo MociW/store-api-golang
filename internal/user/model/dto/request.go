@@ -25,6 +25,7 @@ type UserUpdateRequest struct {
 /* ----------------------------- Address Request ---------------------------- */
 
 type CreateAddressRequest struct {
+	UserID     string `json:"user_id"`
 	Title      string `json:"title" validate:"omitempty,max=100,alpha"`
 	Street     string `json:"street" validate:"omitempty,max=100,alpha"`
 	Country    string `json:"country" validate:"omitempty,max=100,alpha"`
@@ -34,6 +35,7 @@ type CreateAddressRequest struct {
 
 type UpdateAddressRequest struct {
 	ID         uint   `json:"id"`
+	UserID     string `json:"user_id"`
 	Title      string `json:"title" validate:"omitempty,max=100,alpha"`
 	Street     string `json:"street" validate:"omitempty,max=100,alpha"`
 	Country    string `json:"country" validate:"omitempty,max=100,alpha"`
@@ -42,9 +44,11 @@ type UpdateAddressRequest struct {
 }
 
 type DeleteAddressRequest struct {
-	ID uint `json:"id"`
+	UserID string `json:"user_id"`
+	ID     uint   `json:"id"`
 }
 
 type FindAddressRequest struct {
-	ID uint `json:"id"`
+	UserID string `json:"user_id"`
+	ID     uint   `json:"id"`
 }
