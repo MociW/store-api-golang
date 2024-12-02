@@ -6,22 +6,54 @@ import (
 	"github.com/spf13/viper"
 )
 
-func NewViper() *viper.Viper {
+type Config struct {
+	Server   ServerConfig
+	Postgres PostgresConfig
+	AWS      AwsConfig
+}
+
+type ServerConfig struct {
+	Host         string
+	Port         int
+	JWTSecretKey string
+}
+
+type PostgresConfig struct {
+	User     string
+	Password string
+	Host     string
+	Port     int
+	NameDB   string
+}
+
+type AwsConfig struct {
+	Endpoint       string
+	MiniEndpoint   string
+	MinioAccessKey string
+	MinioSecretKey string
+	UseSSL         bool
+}
+
+func NewAppConfig() (*Config, error) {
+
+	filename := "./.env"
+
 	config := viper.New()
+	config.SetConfigFile(filename)
+	config.AddConfigPath(".")
+	config.AutomaticEnv()
 
-	// Set the configuration file name and type
-	config.SetConfigName(".env") // Include the dot if the file name is ".env"
-	config.SetConfigType("env")  // Specify file type as "env"
-
-	// Add paths to look for the config file
-	config.AddConfigPath("./../") // Parent directory
-	config.AddConfigPath("./")    // Current directory
-
-	// Read in the configuration file
-	err := config.ReadInConfig()
-	if err != nil {
-		panic(fmt.Errorf("fatal error config file: %w", err))
+	if err := config.ReadInConfig(); err != nil {
+		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
+			return nil, fmt.Errorf("config file '%s' not found", filename)
+		}
+		return nil, fmt.Errorf("error reading config file, %v", err)
 	}
 
-	return config
+	cfg := new(Config)
+	if err := config.Unmarshal(cfg); err != nil {
+		return nil, fmt.Errorf("unable to decode into struct, %v", err)
+	}
+
+	return cfg, nil
 }
