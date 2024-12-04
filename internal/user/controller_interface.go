@@ -10,11 +10,15 @@ type AuthController interface {
 
 type UserController interface {
 	/* ---------------------------------- User ---------------------------------- */
+
 	UpdateUser(c *fiber.Ctx) error
 
-	UpdateAvatar(c *fiber.Ctx) error
+	UploadAvatar(c *fiber.Ctx) error
+
+	GetCurrentUser(c *fiber.Ctx) error
 
 	/* --------------------------------- Address -------------------------------- */
+
 	RegisterNewAddress(c *fiber.Ctx) error
 
 	UpdateAddress(c *fiber.Ctx) error

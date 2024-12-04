@@ -15,11 +15,15 @@ type AuthService interface {
 
 type UserService interface {
 	/* ---------------------------------- User ---------------------------------- */
+
 	UpdateUser(ctx context.Context, entity *dto.UserUpdateRequest) (*dto.UserResponse, error)
 
 	UploadAvatar(ctx context.Context, id string, file *model.UserUploadInput) (*dto.UserResponse, error)
 
+	GetCurrentUser(ctx context.Context, id string) (*dto.UserResponse, error)
+
 	/* --------------------------------- Address -------------------------------- */
+
 	CreateAddress(ctx context.Context, entity *dto.CreateAddressRequest) (*dto.AddressResponse, error)
 
 	UpdateAddress(ctx context.Context, entity *dto.UpdateAddressRequest) (*dto.AddressResponse, error)

@@ -11,6 +11,7 @@ import (
 
 type UserPostgresRepository interface {
 	/* ---------------------------------- User ---------------------------------- */
+
 	CreateUser(ctx context.Context, entity *model.User) (*model.User, error)
 
 	UpdateUser(ctx context.Context, entity *model.User) (*model.User, error)
@@ -21,7 +22,10 @@ type UserPostgresRepository interface {
 
 	FindByUsername(ctx context.Context, entity *model.User) (*model.User, error)
 
+	GetCurrentUser(ctx context.Context, entity *model.User) (*model.User, error)
+
 	/* --------------------------------- Address -------------------------------- */
+
 	CreateAddress(ctx context.Context, entity *model.Address) (*model.Address, error)
 
 	UpdateAddress(ctx context.Context, entity *model.Address) (*model.Address, error)

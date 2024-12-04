@@ -36,7 +36,7 @@ type AwsConfig struct {
 
 func NewAppConfig() (*Config, error) {
 
-	filename := "./.env"
+	filename := "./config.yaml"
 
 	config := viper.New()
 	config.SetConfigFile(filename)

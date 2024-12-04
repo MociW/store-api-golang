@@ -7,18 +7,21 @@ import (
 	"github.com/MociW/store-api-golang/internal/user"
 	"github.com/MociW/store-api-golang/internal/user/model"
 	"github.com/MociW/store-api-golang/internal/user/model/dto"
+	"github.com/MociW/store-api-golang/pkg/config"
 )
 
 type UserServiceImpl struct {
+	cfg     *config.Config
 	pgRepo  user.UserPostgresRepository
 	awsRepo user.UserAWSRepository
 }
 
-func NewUserService(pgRepo user.UserPostgresRepository, awsRepo user.UserAWSRepository) user.UserService {
-	return &UserServiceImpl{pgRepo: pgRepo, awsRepo: awsRepo}
+func NewUserService(cfg *config.Config, pgRepo user.UserPostgresRepository, awsRepo user.UserAWSRepository) user.UserService {
+	return &UserServiceImpl{cfg: cfg, pgRepo: pgRepo, awsRepo: awsRepo}
 }
 
 /* ---------------------------------- User ---------------------------------- */
+
 func (user UserServiceImpl) UpdateUser(ctx context.Context, entity *dto.UserUpdateRequest) (*dto.UserResponse, error) {
 
 	request := &model.User{
@@ -29,6 +32,19 @@ func (user UserServiceImpl) UpdateUser(ctx context.Context, entity *dto.UserUpda
 	}
 
 	result, err := user.pgRepo.UpdateUser(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return dto.ConvertUserResponse(result), nil
+}
+
+func (user *UserServiceImpl) GetCurrentUser(ctx context.Context, id string) (*dto.UserResponse, error) {
+	request := &model.User{
+		Email: id,
+	}
+
+	result, err := user.pgRepo.GetCurrentUser(ctx, request)
 	if err != nil {
 		return nil, err
 	}
@@ -52,10 +68,11 @@ func (user UserServiceImpl) UploadAvatar(ctx context.Context, id string, file *m
 }
 
 func (user *UserServiceImpl) generateAWSMinioURL(bucket string, key string) string {
-	return fmt.Sprintf("%s/minio/%s/%s", "http://localhost:9000", bucket, key)
+	return fmt.Sprintf("%s/%s/%s", user.cfg.AWS.Endpoint, bucket, key)
 }
 
 /* --------------------------------- Address -------------------------------- */
+
 func (user UserServiceImpl) CreateAddress(ctx context.Context, entity *dto.CreateAddressRequest) (*dto.AddressResponse, error) {
 	request := &model.Address{
 		UserID:     entity.UserID,

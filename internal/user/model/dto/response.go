@@ -1,6 +1,8 @@
 package dto
 
-import "github.com/MociW/store-api-golang/internal/user/model"
+import (
+	"github.com/MociW/store-api-golang/internal/user/model"
+)
 
 type ApiUserResponse struct {
 	Status  int         `json:"status"`
@@ -24,11 +26,8 @@ type UserResponse struct {
 	FirstName   string            `json:"first_name"`
 	LastName    string            `json:"last_name"`
 	Email       string            `json:"email"`
-	Password    string            `json:"password"`
 	Avatar      string            `json:"avatar,omitempty"`
 	PhoneNumber string            `json:"phone_number,omitempty"`
-	CreatedAt   int64             `json:"created_at"`
-	UpdatedAt   int64             `json:"updated_at"`
 	Addresses   []AddressResponse `json:"addresses,omitempty"`
 }
 
@@ -43,16 +42,24 @@ type AddressResponse struct {
 }
 
 func ConvertUserResponse(entity *model.User) *UserResponse {
+
+	responses := make([]AddressResponse, len(entity.Addresses))
+	for i, address := range entity.Addresses {
+		responses[i] = *ConvertAddressResponse(&address)
+	}
+
+	if len(responses) == 0 {
+		responses = nil
+	}
+
 	return &UserResponse{
 		UserID:      entity.UserID,
 		FirstName:   entity.FirstName,
 		LastName:    entity.LastName,
 		Email:       entity.Email,
-		Password:    entity.Password,
 		Avatar:      entity.Avatar,
 		PhoneNumber: entity.PhoneNumber,
-		CreatedAt:   entity.CreatedAt.Unix(),
-		UpdatedAt:   entity.UpdatedAt.Unix(),
+		Addresses:   responses,
 	}
 }
 

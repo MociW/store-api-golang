@@ -5,7 +5,7 @@ package dto
 type UserRegisterRequest struct {
 	FirstName string `json:"first_name" validate:"required,max=100,alpha"`
 	LastName  string `json:"last_name" validate:"required,max=100,alpha"`
-	Username  string `json:"user_name" validate:"required,max=100,alpha"`
+	Username  string `json:"username" validate:"required,max=100,alpha"`
 	Email     string `json:"email" validate:"required,max=100,email"`
 	Password  string `json:"password" validate:"required,min=8,max=100"`
 }
@@ -16,6 +16,7 @@ type UserLoginRequest struct {
 }
 
 type UserUpdateRequest struct {
+	UserID      string `json:"user_id"`
 	FirstName   string `json:"first_name" validate:"omitempty,max=100,alpha"`
 	LastName    string `json:"last_name" validate:"omitempty,max=100,alpha"`
 	Email       string `json:"email" validate:"omitempty,max=100,email"`

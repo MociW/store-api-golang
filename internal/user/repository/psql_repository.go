@@ -19,6 +19,7 @@ func NewUserPostgresRepository(db *gorm.DB) user.UserPostgresRepository {
 }
 
 /* ---------------------------------- User ---------------------------------- */
+
 func (r UserPostgresRepositoryImpl) CreateUser(ctx context.Context, entity *model.User) (*model.User, error) {
 	// Ensure entity is not nil
 	if entity == nil {
@@ -90,7 +91,7 @@ func (r UserPostgresRepositoryImpl) FindByEmail(ctx context.Context, entity *mod
 		return nil, err
 	}
 
-	return entity, nil
+	return user, nil
 }
 
 func (r UserPostgresRepositoryImpl) FindByUsername(ctx context.Context, entity *model.User) (*model.User, error) {
@@ -101,10 +102,23 @@ func (r UserPostgresRepositoryImpl) FindByUsername(ctx context.Context, entity *
 		return nil, errors.Wrap(err, "UserPostgresRepository.Find.FindByUsername")
 	}
 
-	return entity, nil
+	return user, nil
+}
+
+// GetCurrentUser implements user.UserPostgresRepository.
+func (r *UserPostgresRepositoryImpl) GetCurrentUser(ctx context.Context, entity *model.User) (*model.User, error) {
+	user := new(model.User)
+	tx := r.DB.WithContext(ctx)
+
+	if err := tx.Model(&model.User{}).Preload("products").Take(user, "email = ?", entity.Email).Error; err != nil {
+		return nil, errors.Wrap(err, "UserPostgresRepository.Find.FindByUsername")
+	}
+
+	return user, nil
 }
 
 /* --------------------------------- Address -------------------------------- */
+
 func (r UserPostgresRepositoryImpl) CreateAddress(ctx context.Context, entity *model.Address) (*model.Address, error) {
 	tx := r.DB.WithContext(ctx)
 

@@ -1,0 +1,26 @@
+# -------------------------------- App Config -------------------------------- #
+server:
+  Host: 0.0.0.0
+  Port: 3000
+  JWTSecretKey: 95d1c361b680578a9a6e8aa4a4fcf3fe02484cbf7a38906258eaed13ac1ca4ce
+
+# ------------------------------ Postgres Config ----------------------------- #
+postgres:
+  User: postgres
+  Password: postgres
+  Host: "127.0.0.1"
+  Port: 5444
+  NameDB: store_db
+
+# ------------------------------- Minio Config ------------------------------- #
+aws:
+  Endpoint: localhost:9000
+  MinioAccessKey: admin
+  MinioSecretKet: WqYNmSnOBT
+  UseSSL: false
+
+# bucket:
+#   MinioFirstBucket: avatar-user-store
+#   MinioSecondBucket: product-store
+
+

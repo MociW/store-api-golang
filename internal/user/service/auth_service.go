@@ -6,6 +6,7 @@ import (
 	"github.com/MociW/store-api-golang/internal/user"
 	"github.com/MociW/store-api-golang/internal/user/model"
 	"github.com/MociW/store-api-golang/internal/user/model/dto"
+	"github.com/MociW/store-api-golang/pkg/config"
 	"github.com/MociW/store-api-golang/pkg/util"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
@@ -13,11 +14,12 @@ import (
 )
 
 type AuthServiceImpl struct {
+	cfg    *config.Config
 	pgRepo user.UserPostgresRepository
 }
 
-func NewAuthService(pgRepo user.UserPostgresRepository) user.AuthService {
-	return &AuthServiceImpl{pgRepo: pgRepo}
+func NewAuthService(cfg *config.Config, pgRepo user.UserPostgresRepository) user.AuthService {
+	return &AuthServiceImpl{cfg: cfg, pgRepo: pgRepo}
 }
 
 func (auth AuthServiceImpl) Register(ctx context.Context, entity *dto.UserRegisterRequest) (*dto.UserResponse, error) {
@@ -39,7 +41,7 @@ func (auth AuthServiceImpl) Register(ctx context.Context, entity *dto.UserRegist
 
 	result, err := auth.pgRepo.CreateUser(ctx, user)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "AuthService.Register")
 	}
 
 	return dto.ConvertUserResponse(result), nil
@@ -60,7 +62,7 @@ func (auth AuthServiceImpl) Login(ctx context.Context, entity *dto.UserLoginRequ
 		return nil, err
 	}
 
-	accToken, refToken, err := util.GenerateTokenPair(user)
+	accToken, refToken, err := util.GenerateTokenPair(result, auth.cfg)
 	if err != nil {
 		return nil, errors.Wrap(err, "AuthService.Login")
 	}

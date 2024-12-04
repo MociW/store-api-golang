@@ -1,16 +1,16 @@
 package aws
 
 import (
+	"github.com/MociW/store-api-golang/pkg/config"
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
 	"github.com/pkg/errors"
-	"github.com/spf13/viper"
 )
 
-func NewAWSClient(config *viper.Viper) (*minio.Client, error) {
-	client, err := minio.New(config.GetString("MINIO_ENDPOINT"), &minio.Options{
-		Creds:  credentials.NewStaticV4(config.GetString("MINIO_ACCESS_KEY"), config.GetString("MINIO_SECRET_KEY"), ""),
-		Secure: config.GetBool("MINIO_SECURE"),
+func NewAWSClient(config *config.Config) (*minio.Client, error) {
+	client, err := minio.New(config.AWS.Endpoint, &minio.Options{
+		Creds:  credentials.NewStaticV4(config.AWS.MinioAccessKey, config.AWS.MinioSecretKey, ""),
+		Secure: config.AWS.UseSSL,
 	})
 	if err != nil {
 		return nil, errors.Wrap(err, "NewAWSClient.minio.New")
