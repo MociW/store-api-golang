@@ -33,7 +33,6 @@ type UserResponse struct {
 
 type AddressResponse struct {
 	ID         uint   `json:"id"`
-	UserID     string `json:"user_id"`
 	Title      string `json:"title"`
 	Street     string `json:"street"`
 	Country    string `json:"country"`
@@ -66,7 +65,6 @@ func ConvertUserResponse(entity *model.User) *UserResponse {
 func ConvertAddressResponse(entity *model.Address) *AddressResponse {
 	return &AddressResponse{
 		ID:         entity.ID,
-		UserID:     entity.UserID,
 		Title:      entity.Title,
 		Street:     entity.Street,
 		Country:    entity.Country,

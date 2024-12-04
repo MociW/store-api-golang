@@ -8,7 +8,7 @@ import (
 )
 
 func (s *Server) Boostrap() error {
-	middlwareSetup := middleware.NewMiddlewareManager(&middleware.MiddlewareConfig{
+	middlewareSetup := middleware.NewMiddlewareManager(&middleware.MiddlewareConfig{
 		Config: s.cfg,
 	})
 
@@ -25,9 +25,10 @@ func (s *Server) Boostrap() error {
 	user.Post("/", authController.RegisterNewUser)
 	user.Post("/login", authController.LoginUser)
 
-	user.Use(middlwareSetup.AuthMiddleware)
+	user.Use(middlewareSetup.AuthMiddleware)
 	user.Post("/avatar", userController.UploadAvatar)
 	user.Get("/me", userController.GetCurrentUser)
+	user.Post("/addresses", userController.RegisterNewAddress)
 
 	return nil
 }

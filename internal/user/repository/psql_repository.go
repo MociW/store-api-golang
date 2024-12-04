@@ -110,7 +110,7 @@ func (r *UserPostgresRepositoryImpl) GetCurrentUser(ctx context.Context, entity 
 	user := new(model.User)
 	tx := r.DB.WithContext(ctx)
 
-	if err := tx.Model(&model.User{}).Preload("products").Take(user, "email = ?", entity.Email).Error; err != nil {
+	if err := tx.Model(&model.User{}).Preload("Addresses").Take(user, "email = ?", entity.Email).Error; err != nil {
 		return nil, errors.Wrap(err, "UserPostgresRepository.Find.FindByUsername")
 	}
 

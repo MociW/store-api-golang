@@ -131,7 +131,7 @@ func (user UserControllerImpl) GetCurrentUser(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(dto.ApiUserResponse{
 		Status:  fiber.StatusOK,
-		Message: "Success Updated",
+		Message: "Success Retrieving Data",
 		Data:    response,
 	})
 }
@@ -139,7 +139,37 @@ func (user UserControllerImpl) GetCurrentUser(c *fiber.Ctx) error {
 /* --------------------------------- Address -------------------------------- */
 
 func (user UserControllerImpl) RegisterNewAddress(c *fiber.Ctx) error {
-	panic("not implemented") // TODO: Implement
+	claim := c.Locals("user").(*jwt.MapClaims)
+
+	userID, ok := (*claim)["id"].(string)
+	if !ok {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Invalid user ID in token"})
+	}
+
+	request := new(dto.CreateAddressRequest)
+	err := c.BodyParser(request)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Invalid request payload",
+		})
+	}
+
+	request.UserID = userID
+
+	response, err := user.userService.CreateAddress(c.UserContext(), request)
+
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ApiUserResponse{
+			Status:  fiber.StatusBadRequest,
+			Message: "Failed to Create Data",
+		})
+	}
+
+	return c.Status(201).JSON(dto.ApiUserResponse{
+		Status:  201,
+		Message: "Successfully Create Data",
+		Data:    response,
+	})
 }
 
 func (user UserControllerImpl) UpdateAddress(c *fiber.Ctx) error {
