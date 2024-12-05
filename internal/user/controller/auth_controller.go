@@ -16,7 +16,7 @@ func NewAuthController(authService user.AuthService) user.AuthController {
 	return &AuthControllerImpl{authService: authService}
 }
 
-func (auth AuthControllerImpl) RegisterNewUser(c *fiber.Ctx) error {
+func (auth *AuthControllerImpl) RegisterNewUser(c *fiber.Ctx) error {
 	request := new(dto.UserRegisterRequest)
 	err := c.BodyParser(request)
 	if err != nil {
@@ -35,7 +35,7 @@ func (auth AuthControllerImpl) RegisterNewUser(c *fiber.Ctx) error {
 	})
 }
 
-func (auth AuthControllerImpl) LoginUser(c *fiber.Ctx) error {
+func (auth *AuthControllerImpl) LoginUser(c *fiber.Ctx) error {
 	request := new(dto.UserLoginRequest)
 	err := c.BodyParser(request)
 	if err != nil {

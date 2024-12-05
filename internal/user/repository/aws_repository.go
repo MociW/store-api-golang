@@ -19,7 +19,7 @@ func NewAWSUserRepository(s3Client *minio.Client) user.UserAWSRepository {
 	return &UserAWSRepositoryImpl{s3Client: s3Client}
 }
 
-func (aws UserAWSRepositoryImpl) PutObject(ctx context.Context, entity *model.UserUploadInput) (*minio.UploadInfo, error) {
+func (aws *UserAWSRepositoryImpl) PutObject(ctx context.Context, entity *model.UserUploadInput) (*minio.UploadInfo, error) {
 	opts := minio.PutObjectOptions{
 		UserMetadata: map[string]string{"x-amz-acl": "public-read"},
 		ContentType:  entity.ContentType,
@@ -32,7 +32,7 @@ func (aws UserAWSRepositoryImpl) PutObject(ctx context.Context, entity *model.Us
 	return &uploadInfo, nil
 }
 
-func (aws UserAWSRepositoryImpl) GetObject(ctx context.Context, bucketName string, objectName string) (*minio.Object, error) {
+func (aws *UserAWSRepositoryImpl) GetObject(ctx context.Context, bucketName string, objectName string) (*minio.Object, error) {
 	object, err := aws.s3Client.GetObject(ctx, bucketName, objectName, minio.GetObjectOptions{})
 	if err != nil {
 		return nil, errors.Wrap(err, "AWSUserRepository.PutObject.s3Client.GetObject")
@@ -42,7 +42,7 @@ func (aws UserAWSRepositoryImpl) GetObject(ctx context.Context, bucketName strin
 	return object, err
 }
 
-func (aws UserAWSRepositoryImpl) RemoveObject(ctx context.Context, bucketName string, objectName string) error {
+func (aws *UserAWSRepositoryImpl) RemoveObject(ctx context.Context, bucketName string, objectName string) error {
 	opts := minio.RemoveObjectOptions{
 		GovernanceBypass: true,
 	}
@@ -54,7 +54,7 @@ func (aws UserAWSRepositoryImpl) RemoveObject(ctx context.Context, bucketName st
 	return nil
 }
 
-func (aws UserAWSRepositoryImpl) PresignedGetObject(ctx context.Context, bucketName string, objectName string, expiry time.Duration) (*url.URL, error) {
+func (aws *UserAWSRepositoryImpl) PresignedGetObject(ctx context.Context, bucketName string, objectName string, expiry time.Duration) (*url.URL, error) {
 	var reqParam = make(url.Values)
 
 	presignedUrl, err := aws.s3Client.PresignedGetObject(ctx, bucketName, objectName, expiry, reqParam)

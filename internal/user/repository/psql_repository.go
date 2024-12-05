@@ -20,7 +20,7 @@ func NewUserPostgresRepository(db *gorm.DB) user.UserPostgresRepository {
 
 /* ---------------------------------- User ---------------------------------- */
 
-func (r UserPostgresRepositoryImpl) CreateUser(ctx context.Context, entity *model.User) (*model.User, error) {
+func (r *UserPostgresRepositoryImpl) CreateUser(ctx context.Context, entity *model.User) (*model.User, error) {
 	// Ensure entity is not nil
 	if entity == nil {
 		return nil, errors.New("UserPostgresRepository.CreateUser: entity cannot be nil")
@@ -44,7 +44,7 @@ func (r UserPostgresRepositoryImpl) CreateUser(ctx context.Context, entity *mode
 	return entity, nil
 }
 
-func (r UserPostgresRepositoryImpl) UpdateUser(ctx context.Context, entity *model.User) (*model.User, error) {
+func (r *UserPostgresRepositoryImpl) UpdateUser(ctx context.Context, entity *model.User) (*model.User, error) {
 	tx := r.DB.WithContext(ctx)
 
 	err := tx.Transaction(func(tx *gorm.DB) error {
@@ -62,7 +62,7 @@ func (r UserPostgresRepositoryImpl) UpdateUser(ctx context.Context, entity *mode
 	return entity, nil
 }
 
-func (r UserPostgresRepositoryImpl) DeleteUser(ctx context.Context, entity *model.User) error {
+func (r *UserPostgresRepositoryImpl) DeleteUser(ctx context.Context, entity *model.User) error {
 	tx := r.DB.WithContext(ctx)
 
 	return tx.Transaction(func(tx *gorm.DB) error {
@@ -83,7 +83,7 @@ func (r UserPostgresRepositoryImpl) DeleteUser(ctx context.Context, entity *mode
 	})
 }
 
-func (r UserPostgresRepositoryImpl) FindByEmail(ctx context.Context, entity *model.User) (*model.User, error) {
+func (r *UserPostgresRepositoryImpl) FindByEmail(ctx context.Context, entity *model.User) (*model.User, error) {
 	user := new(model.User)
 	tx := r.DB.WithContext(ctx)
 
@@ -94,7 +94,7 @@ func (r UserPostgresRepositoryImpl) FindByEmail(ctx context.Context, entity *mod
 	return user, nil
 }
 
-func (r UserPostgresRepositoryImpl) FindByUsername(ctx context.Context, entity *model.User) (*model.User, error) {
+func (r *UserPostgresRepositoryImpl) FindByUsername(ctx context.Context, entity *model.User) (*model.User, error) {
 	user := new(model.User)
 	tx := r.DB.WithContext(ctx)
 
@@ -119,7 +119,7 @@ func (r *UserPostgresRepositoryImpl) GetCurrentUser(ctx context.Context, entity 
 
 /* --------------------------------- Address -------------------------------- */
 
-func (r UserPostgresRepositoryImpl) CreateAddress(ctx context.Context, entity *model.Address) (*model.Address, error) {
+func (r *UserPostgresRepositoryImpl) CreateAddress(ctx context.Context, entity *model.Address) (*model.Address, error) {
 	tx := r.DB.WithContext(ctx)
 
 	err := tx.Transaction(func(tx *gorm.DB) error {
@@ -138,7 +138,7 @@ func (r UserPostgresRepositoryImpl) CreateAddress(ctx context.Context, entity *m
 	return entity, nil
 }
 
-func (r UserPostgresRepositoryImpl) UpdateAddress(ctx context.Context, entity *model.Address) (*model.Address, error) {
+func (r *UserPostgresRepositoryImpl) UpdateAddress(ctx context.Context, entity *model.Address) (*model.Address, error) {
 	tx := r.DB.WithContext(ctx)
 
 	err := tx.Transaction(func(tx *gorm.DB) error {
@@ -155,7 +155,7 @@ func (r UserPostgresRepositoryImpl) UpdateAddress(ctx context.Context, entity *m
 	return entity, nil
 }
 
-func (r UserPostgresRepositoryImpl) DeleteAddress(ctx context.Context, entity *model.Address) error {
+func (r *UserPostgresRepositoryImpl) DeleteAddress(ctx context.Context, entity *model.Address) error {
 	tx := r.DB.WithContext(ctx)
 
 	return tx.Transaction(func(tx *gorm.DB) error {
@@ -169,7 +169,7 @@ func (r UserPostgresRepositoryImpl) DeleteAddress(ctx context.Context, entity *m
 	})
 }
 
-func (r UserPostgresRepositoryImpl) FindAddress(ctx context.Context, entity *model.Address) (*model.Address, error) {
+func (r *UserPostgresRepositoryImpl) FindAddress(ctx context.Context, entity *model.Address) (*model.Address, error) {
 	address := new(model.Address)
 
 	tx := r.DB.WithContext(ctx)
@@ -181,7 +181,7 @@ func (r UserPostgresRepositoryImpl) FindAddress(ctx context.Context, entity *mod
 	return entity, nil
 }
 
-func (r UserPostgresRepositoryImpl) ListAddress(ctx context.Context, uuid string) ([]model.Address, error) {
+func (r *UserPostgresRepositoryImpl) ListAddress(ctx context.Context, uuid string) ([]model.Address, error) {
 	var Addresses []model.Address
 	tx := r.DB.WithContext(ctx)
 

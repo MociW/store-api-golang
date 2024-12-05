@@ -17,7 +17,7 @@ func ProductSKURepository(db *gorm.DB) product.ProductSKURepository {
 	return &ProductSKURepositoryImpl{DB: db}
 }
 
-func (r ProductSKURepositoryImpl) CreateSKU(ctx context.Context, entity *model.ProductSKU) (*model.ProductSKU, error) {
+func (r *ProductSKURepositoryImpl) CreateSKU(ctx context.Context, entity *model.ProductSKU) (*model.ProductSKU, error) {
 	tx := r.DB.WithContext(ctx)
 
 	err := tx.Transaction(func(tx *gorm.DB) error {
@@ -31,7 +31,7 @@ func (r ProductSKURepositoryImpl) CreateSKU(ctx context.Context, entity *model.P
 	return entity, nil
 }
 
-func (r ProductSKURepositoryImpl) UpdateSKU(ctx context.Context, entity *model.ProductSKU) (*model.ProductSKU, error) {
+func (r *ProductSKURepositoryImpl) UpdateSKU(ctx context.Context, entity *model.ProductSKU) (*model.ProductSKU, error) {
 	tx := r.DB.WithContext(ctx)
 
 	err := tx.Transaction(func(tx *gorm.DB) error {
@@ -45,7 +45,7 @@ func (r ProductSKURepositoryImpl) UpdateSKU(ctx context.Context, entity *model.P
 	return entity, nil
 }
 
-func (r ProductSKURepositoryImpl) DeleteSKU(ctx context.Context, entity *model.ProductSKU) error {
+func (r *ProductSKURepositoryImpl) DeleteSKU(ctx context.Context, entity *model.ProductSKU) error {
 	tx := r.DB.WithContext(ctx)
 
 	err := tx.Transaction(func(tx *gorm.DB) error {
@@ -68,7 +68,7 @@ func (r ProductSKURepositoryImpl) DeleteSKU(ctx context.Context, entity *model.P
 	return nil
 }
 
-func (r ProductSKURepositoryImpl) FindSKU(ctx context.Context, entity *model.ProductSKU) (*model.ProductSKU, error) {
+func (r *ProductSKURepositoryImpl) FindSKU(ctx context.Context, entity *model.ProductSKU) (*model.ProductSKU, error) {
 	sku := new(model.ProductSKU)
 	tx := r.DB.WithContext(ctx)
 
@@ -79,7 +79,7 @@ func (r ProductSKURepositoryImpl) FindSKU(ctx context.Context, entity *model.Pro
 	return sku, nil
 }
 
-func (r ProductSKURepositoryImpl) ListSKU(ctx context.Context, entity *model.ProductSKU) ([]model.ProductSKU, error) {
+func (r *ProductSKURepositoryImpl) ListSKU(ctx context.Context, entity *model.ProductSKU) ([]model.ProductSKU, error) {
 	var skus []model.ProductSKU
 	tx := r.DB.WithContext(ctx)
 

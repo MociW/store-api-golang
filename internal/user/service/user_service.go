@@ -22,7 +22,7 @@ func NewUserService(cfg *config.Config, pgRepo user.UserPostgresRepository, awsR
 
 /* ---------------------------------- User ---------------------------------- */
 
-func (user UserServiceImpl) UpdateUser(ctx context.Context, entity *dto.UserUpdateRequest) (*dto.UserResponse, error) {
+func (user *UserServiceImpl) UpdateUser(ctx context.Context, entity *dto.UserUpdateRequest) (*dto.UserResponse, error) {
 
 	request := &model.User{
 		FirstName:   entity.FirstName,
@@ -52,7 +52,7 @@ func (user *UserServiceImpl) GetCurrentUser(ctx context.Context, id string) (*dt
 	return dto.ConvertUserResponse(result), nil
 }
 
-func (user UserServiceImpl) UploadAvatar(ctx context.Context, id string, file *model.UserUploadInput) (*dto.UserResponse, error) {
+func (user *UserServiceImpl) UploadAvatar(ctx context.Context, id string, file *model.UserUploadInput) (*dto.UserResponse, error) {
 	uploadInfo, err := user.awsRepo.PutObject(ctx, file)
 	if err != nil {
 		return nil, err
@@ -73,7 +73,7 @@ func (user *UserServiceImpl) generateAWSMinioURL(bucket string, key string) stri
 
 /* --------------------------------- Address -------------------------------- */
 
-func (user UserServiceImpl) CreateAddress(ctx context.Context, entity *dto.CreateAddressRequest) (*dto.AddressResponse, error) {
+func (user *UserServiceImpl) CreateAddress(ctx context.Context, entity *dto.CreateAddressRequest) (*dto.AddressResponse, error) {
 	request := &model.Address{
 		UserID:     entity.UserID,
 		Title:      entity.Title,
@@ -91,7 +91,7 @@ func (user UserServiceImpl) CreateAddress(ctx context.Context, entity *dto.Creat
 	return dto.ConvertAddressResponse(result), nil
 }
 
-func (user UserServiceImpl) UpdateAddress(ctx context.Context, entity *dto.UpdateAddressRequest) (*dto.AddressResponse, error) {
+func (user *UserServiceImpl) UpdateAddress(ctx context.Context, entity *dto.UpdateAddressRequest) (*dto.AddressResponse, error) {
 	request := &model.Address{
 		ID:         entity.ID,
 		UserID:     entity.UserID,
@@ -110,7 +110,7 @@ func (user UserServiceImpl) UpdateAddress(ctx context.Context, entity *dto.Updat
 	return dto.ConvertAddressResponse(result), nil
 }
 
-func (user UserServiceImpl) DeleteAddress(ctx context.Context, entity *dto.DeleteAddressRequest) error {
+func (user *UserServiceImpl) DeleteAddress(ctx context.Context, entity *dto.DeleteAddressRequest) error {
 	request := &model.Address{
 		ID:     entity.ID,
 		UserID: entity.UserID,
@@ -124,7 +124,7 @@ func (user UserServiceImpl) DeleteAddress(ctx context.Context, entity *dto.Delet
 	return nil
 }
 
-func (user UserServiceImpl) FindAddress(ctx context.Context, entity *dto.FindAddressRequest) (*dto.AddressResponse, error) {
+func (user *UserServiceImpl) FindAddress(ctx context.Context, entity *dto.FindAddressRequest) (*dto.AddressResponse, error) {
 	request := &model.Address{
 		ID:     entity.ID,
 		UserID: entity.UserID,
@@ -138,7 +138,7 @@ func (user UserServiceImpl) FindAddress(ctx context.Context, entity *dto.FindAdd
 	return dto.ConvertAddressResponse(result), nil
 }
 
-func (user UserServiceImpl) ListAddress(ctx context.Context, id string) ([]dto.AddressResponse, error) {
+func (user *UserServiceImpl) ListAddress(ctx context.Context, id string) ([]dto.AddressResponse, error) {
 
 	result, err := user.pgRepo.ListAddress(ctx, id)
 	if err != nil {

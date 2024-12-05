@@ -19,7 +19,7 @@ func NewProductAWSRepository(s3Client *minio.Client) product.ProductAWSRepositor
 	return &ProductAWSRepositoryImpl{s3Client: s3Client}
 }
 
-func (aws ProductAWSRepositoryImpl) PutObject(ctx context.Context, entity *model.ProductUploadInput) (*minio.UploadInfo, error) {
+func (aws *ProductAWSRepositoryImpl) PutObject(ctx context.Context, entity *model.ProductUploadInput) (*minio.UploadInfo, error) {
 	opts := minio.PutObjectOptions{
 		UserMetadata: map[string]string{"x-amz-acl": "public-read"},
 		ContentType:  entity.ContentType,
@@ -32,7 +32,7 @@ func (aws ProductAWSRepositoryImpl) PutObject(ctx context.Context, entity *model
 	return &uploadInfo, nil
 }
 
-func (aws ProductAWSRepositoryImpl) GetObject(ctx context.Context, bucketName string, objectName string) (*minio.Object, error) {
+func (aws *ProductAWSRepositoryImpl) GetObject(ctx context.Context, bucketName string, objectName string) (*minio.Object, error) {
 	object, err := aws.s3Client.GetObject(ctx, bucketName, objectName, minio.GetObjectOptions{})
 	if err != nil {
 		return nil, errors.Wrap(err, "ProductAWSRepository.PutObject.s3Client.GetObject")
@@ -42,7 +42,7 @@ func (aws ProductAWSRepositoryImpl) GetObject(ctx context.Context, bucketName st
 	return object, err
 }
 
-func (aws ProductAWSRepositoryImpl) RemoveObject(ctx context.Context, bucketName string, objectName string) error {
+func (aws *ProductAWSRepositoryImpl) RemoveObject(ctx context.Context, bucketName string, objectName string) error {
 	opts := minio.RemoveObjectOptions{
 		GovernanceBypass: true,
 	}
@@ -54,7 +54,7 @@ func (aws ProductAWSRepositoryImpl) RemoveObject(ctx context.Context, bucketName
 	return nil
 }
 
-func (aws ProductAWSRepositoryImpl) PresignedGetObject(ctx context.Context, bucketName string, objectName string, expiry time.Duration) (*url.URL, error) {
+func (aws *ProductAWSRepositoryImpl) PresignedGetObject(ctx context.Context, bucketName string, objectName string, expiry time.Duration) (*url.URL, error) {
 	var reqParam = make(url.Values)
 
 	presignedUrl, err := aws.s3Client.PresignedGetObject(ctx, bucketName, objectName, expiry, reqParam)

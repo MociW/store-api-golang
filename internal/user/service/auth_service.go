@@ -22,7 +22,7 @@ func NewAuthService(cfg *config.Config, pgRepo user.UserPostgresRepository) user
 	return &AuthServiceImpl{cfg: cfg, pgRepo: pgRepo}
 }
 
-func (auth AuthServiceImpl) Register(ctx context.Context, entity *dto.UserRegisterRequest) (*dto.UserResponse, error) {
+func (auth *AuthServiceImpl) Register(ctx context.Context, entity *dto.UserRegisterRequest) (*dto.UserResponse, error) {
 	password, err := bcrypt.GenerateFromPassword([]byte(entity.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return nil, err
@@ -47,7 +47,7 @@ func (auth AuthServiceImpl) Register(ctx context.Context, entity *dto.UserRegist
 	return dto.ConvertUserResponse(result), nil
 }
 
-func (auth AuthServiceImpl) Login(ctx context.Context, entity *dto.UserLoginRequest) (*dto.JwtToken, error) {
+func (auth *AuthServiceImpl) Login(ctx context.Context, entity *dto.UserLoginRequest) (*dto.JwtToken, error) {
 	user := &model.User{
 		Email:    entity.Email,
 		Password: entity.Password,

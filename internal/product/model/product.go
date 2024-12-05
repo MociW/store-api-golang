@@ -3,7 +3,6 @@ package model
 import (
 	"time"
 
-	"github.com/MociW/store-api-golang/internal/user/model"
 	"github.com/lib/pq"
 	"gorm.io/gorm"
 )
@@ -19,7 +18,6 @@ type Product struct {
 	UpdatedAt   time.Time      `gorm:"column:updated_at"`
 	DeletedAt   gorm.DeletedAt `gorm:"index"`
 	ProductSKUs []ProductSKU   `gorm:"foreignKey:product_id;references:id"`
-	User        model.User     `gorm:"foreignKey:user_id;references:user_id"`
 }
 
 func (p *Product) TableName() string {
@@ -39,7 +37,6 @@ type ProductSKU struct {
 	UpdatedAt time.Time      `gorm:"column:updated_at"`
 	DeletedAt gorm.DeletedAt `gorm:"index"`
 	Product   Product        `gorm:"foreignKey:product_id;references:id"`
-	User      model.User     `gorm:"foreignKey:user_id;references:user_id"`
 }
 
 func (p *ProductSKU) TableName() string {

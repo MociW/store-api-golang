@@ -17,7 +17,7 @@ func NewProductRepository(db *gorm.DB) product.ProductRepository {
 	return &ProductRepositoryImpl{DB: db}
 }
 
-func (r ProductRepositoryImpl) CreateProduct(ctx context.Context, entity *model.Product) (*model.Product, error) {
+func (r *ProductRepositoryImpl) CreateProduct(ctx context.Context, entity *model.Product) (*model.Product, error) {
 	// Ensure entity is not nil
 	if entity == nil {
 		return nil, errors.New("ProductRepository.CreateProdduct: entity cannot be nil")
@@ -35,7 +35,7 @@ func (r ProductRepositoryImpl) CreateProduct(ctx context.Context, entity *model.
 	return entity, nil
 }
 
-func (r ProductRepositoryImpl) UpdateProduct(ctx context.Context, entity *model.Product) (*model.Product, error) {
+func (r *ProductRepositoryImpl) UpdateProduct(ctx context.Context, entity *model.Product) (*model.Product, error) {
 	// Ensure entity is not nil
 	if entity == nil {
 		return nil, errors.New("ProductRepository.UpdateProduct: entity cannot be nil")
@@ -53,7 +53,7 @@ func (r ProductRepositoryImpl) UpdateProduct(ctx context.Context, entity *model.
 	return entity, nil
 }
 
-func (r ProductRepositoryImpl) DeleteProduct(ctx context.Context, entity *model.Product) error {
+func (r *ProductRepositoryImpl) DeleteProduct(ctx context.Context, entity *model.Product) error {
 	tx := r.DB.WithContext(ctx)
 	return tx.Transaction(func(tx *gorm.DB) error {
 		product := new(model.Product)
@@ -69,7 +69,7 @@ func (r ProductRepositoryImpl) DeleteProduct(ctx context.Context, entity *model.
 	})
 }
 
-func (r ProductRepositoryImpl) FindProduct(ctx context.Context, entity *model.Product) (*model.Product, error) {
+func (r *ProductRepositoryImpl) FindProduct(ctx context.Context, entity *model.Product) (*model.Product, error) {
 	product := new(model.Product)
 	tx := r.DB.WithContext(ctx)
 
@@ -80,7 +80,7 @@ func (r ProductRepositoryImpl) FindProduct(ctx context.Context, entity *model.Pr
 	return product, nil
 }
 
-func (r ProductRepositoryImpl) ListProduct(ctx context.Context, entity string) ([]model.Product, error) {
+func (r *ProductRepositoryImpl) ListProduct(ctx context.Context, entity string) ([]model.Product, error) {
 	var products []model.Product
 	tx := r.DB.WithContext(ctx)
 

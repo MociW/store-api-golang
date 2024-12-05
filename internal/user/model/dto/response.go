@@ -23,6 +23,7 @@ type JwtToken struct {
 
 type UserResponse struct {
 	UserID      string            `json:"user_id"`
+	Username    string            `json:"username"`
 	FirstName   string            `json:"first_name"`
 	LastName    string            `json:"last_name"`
 	Email       string            `json:"email"`
@@ -53,6 +54,7 @@ func ConvertUserResponse(entity *model.User) *UserResponse {
 
 	return &UserResponse{
 		UserID:      entity.UserID,
+		Username:    entity.Username,
 		FirstName:   entity.FirstName,
 		LastName:    entity.LastName,
 		Email:       entity.Email,
