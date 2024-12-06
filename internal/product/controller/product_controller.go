@@ -71,3 +71,119 @@ func (product *ProductControllerImpl) CreateProduct(c *fiber.Ctx) error {
 		Data:    response,
 	})
 }
+
+func (product *ProductControllerImpl) DeleteProduct(c *fiber.Ctx) error {
+	claim := c.Locals("user").(*jwt.MapClaims)
+	userID, ok := (*claim)["id"].(string)
+	if !ok {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Invalid user ID in token"})
+	}
+
+	request := new(dto.ProductDeleteRequest)
+	err := c.BodyParser(request)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Invalid request payload",
+		})
+	}
+
+	request.UserID = userID
+
+	err = product.productService.DeleteProduct(c.UserContext(), request)
+	if err != nil {
+		log.Printf("Error creating product: %v", err)
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to Delete product"})
+	}
+
+	// Return the response
+	return c.Status(fiber.StatusOK).JSON(dto.ApiProductResponse{
+		Status:  fiber.StatusOK,
+		Message: "Product Created",
+	})
+}
+
+func (product *ProductControllerImpl) UpdateProduct(c *fiber.Ctx) error {
+	claim := c.Locals("user").(*jwt.MapClaims)
+	userID, ok := (*claim)["id"].(string)
+	if !ok {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Invalid user ID in token"})
+	}
+
+	request := new(dto.ProductUpdateRequest)
+	err := c.BodyParser(request)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Invalid request payload",
+		})
+	}
+
+	request.UserID = userID
+
+	response, err := product.productService.UpdateProduct(c.UserContext(), request)
+
+	if err != nil {
+		log.Printf("Error creating product: %v", err)
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to Delete product"})
+	}
+
+	// Return the response
+	return c.Status(fiber.StatusOK).JSON(dto.ApiProductResponse{
+		Status:  fiber.StatusOK,
+		Message: "Product Created",
+		Data:    response,
+	})
+}
+
+func (product *ProductControllerImpl) FindProduct(c *fiber.Ctx) error {
+	claim := c.Locals("user").(*jwt.MapClaims)
+	userID, ok := (*claim)["id"].(string)
+	if !ok {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Invalid user ID in token"})
+	}
+
+	request := new(dto.ProductFindRequest)
+	err := c.BodyParser(request)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Invalid request payload",
+		})
+	}
+
+	request.UserID = userID
+
+	response, err := product.productService.FindProduct(c.UserContext(), request)
+
+	if err != nil {
+		log.Printf("Error creating product: %v", err)
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to Find Data"})
+	}
+
+	// Return the response
+	return c.Status(fiber.StatusOK).JSON(dto.ApiProductResponse{
+		Status:  fiber.StatusOK,
+		Message: "Product Created",
+		Data:    response,
+	})
+}
+
+func (product *ProductControllerImpl) ListProduct(c *fiber.Ctx) error {
+	claim := c.Locals("user").(*jwt.MapClaims)
+	userID, ok := (*claim)["id"].(string)
+	if !ok {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Invalid user ID in token"})
+	}
+
+	response, err := product.productService.ListProduct(c.UserContext(), userID)
+
+	if err != nil {
+		log.Printf("Error creating product: %v", err)
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to Delete product"})
+	}
+
+	// Return the response
+	return c.Status(fiber.StatusOK).JSON(dto.ApiProductResponse{
+		Status:  fiber.StatusOK,
+		Message: "Product Created",
+		Data:    response,
+	})
+}

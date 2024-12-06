@@ -22,6 +22,12 @@ type UserService interface {
 
 	GetCurrentUser(ctx context.Context, id string) (*dto.UserResponse, error)
 
+	// ChangePassword(ctx context.Context, entity *dto.UserUpdateRequest) (*dto.UserResponse, error)
+
+	// ChangeEmail(ctx context.Context, entity *dto.UserUpdateRequest) (*dto.UserResponse, error)
+
+	// ChangeUsername(ctx context.Context, entity *dto.UserUpdateRequest) (*dto.UserResponse, error)
+
 	/* --------------------------------- Address -------------------------------- */
 
 	CreateAddress(ctx context.Context, entity *dto.CreateAddressRequest) (*dto.AddressResponse, error)

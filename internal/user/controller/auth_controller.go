@@ -5,6 +5,7 @@ import (
 
 	"github.com/MociW/store-api-golang/internal/user"
 	"github.com/MociW/store-api-golang/internal/user/model/dto"
+	"github.com/MociW/store-api-golang/pkg/validator"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -21,6 +22,14 @@ func (auth *AuthControllerImpl) RegisterNewUser(c *fiber.Ctx) error {
 	err := c.BodyParser(request)
 	if err != nil {
 		return fiber.ErrBadRequest
+	}
+
+	if err := validator.ValidateStruct(c.UserContext(), request); err != nil {
+		return c.Status(fiber.StatusCreated).JSON(dto.ApiUserResponse{
+			Status:  fiber.StatusCreated,
+			Message: "Account Created Successfully",
+			Data:    err.Error(),
+		})
 	}
 
 	response, err := auth.authService.Register(c.UserContext(), request)

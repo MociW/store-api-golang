@@ -1,6 +1,7 @@
 package dto
 
 import (
+	"github.com/MociW/store-api-golang/internal/product/model/dto"
 	"github.com/MociW/store-api-golang/internal/user/model"
 )
 
@@ -22,14 +23,15 @@ type JwtToken struct {
 }
 
 type UserResponse struct {
-	UserID      string            `json:"user_id"`
-	Username    string            `json:"username"`
-	FirstName   string            `json:"first_name"`
-	LastName    string            `json:"last_name"`
-	Email       string            `json:"email"`
-	Avatar      string            `json:"avatar,omitempty"`
-	PhoneNumber string            `json:"phone_number,omitempty"`
-	Addresses   []AddressResponse `json:"addresses,omitempty"`
+	UserID      string                `json:"user_id"`
+	Username    string                `json:"username"`
+	FirstName   string                `json:"first_name"`
+	LastName    string                `json:"last_name"`
+	Email       string                `json:"email"`
+	Avatar      string                `json:"avatar,omitempty"`
+	PhoneNumber string                `json:"phone_number,omitempty"`
+	Addresses   []AddressResponse     `json:"addresses,omitempty"`
+	Products    []dto.ProductResponse `json:"products,omitempty"`
 }
 
 type AddressResponse struct {
@@ -43,13 +45,22 @@ type AddressResponse struct {
 
 func ConvertUserResponse(entity *model.User) *UserResponse {
 
-	responses := make([]AddressResponse, len(entity.Addresses))
-	for i, address := range entity.Addresses {
-		responses[i] = *ConvertAddressResponse(&address)
+	address := make([]AddressResponse, len(entity.Addresses))
+	for i, data := range entity.Addresses {
+		address[i] = *ConvertAddressResponse(&data)
 	}
 
-	if len(responses) == 0 {
-		responses = nil
+	if len(address) == 0 {
+		address = nil
+	}
+
+	product := make([]dto.ProductResponse, len(entity.Products))
+	for i, data := range entity.Products {
+		product[i] = *dto.ConvertProductResponse(&data)
+	}
+
+	if len(product) == 0 {
+		product = nil
 	}
 
 	return &UserResponse{
@@ -60,7 +71,8 @@ func ConvertUserResponse(entity *model.User) *UserResponse {
 		Email:       entity.Email,
 		Avatar:      entity.Avatar,
 		PhoneNumber: entity.PhoneNumber,
-		Addresses:   responses,
+		Addresses:   address,
+		Products:    product,
 	}
 }
 

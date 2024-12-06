@@ -13,11 +13,12 @@ type ProductCreateRequest struct {
 }
 
 type ProductUpdateRequest struct {
-	ID          uint   `json:"id"`
-	Name        string `json:"name" validate:"required,max=100,alpha"`
-	Description string `json:"description" validate:"required,max=100,alpha"`
-	Summary     string `json:"summary" validate:"required,max=100,alpha"`
-	UserID      string `json:"user_id"`
+	ID          uint                       `json:"id"`
+	Name        string                     `json:"name" validate:"required,max=100,alpha"`
+	Description string                     `json:"description" validate:"required,max=100,alpha"`
+	Summary     string                     `json:"summary" validate:"required,max=100,alpha"`
+	Images      []model.ProductUploadInput `json:"-"`
+	UserID      string                     `json:"user_id"`
 }
 
 type ProductDeleteRequest struct {
@@ -34,6 +35,7 @@ type ProductFindRequest struct {
 
 type ProductSKUCreateRequest struct {
 	ProductID uint    `json:"product_id"`
+	Name      string  `json:"name"`
 	Size      string  `json:"size"`
 	Color     string  `json:"color"`
 	SKU       string  `json:"sku"`

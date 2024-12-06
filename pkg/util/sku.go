@@ -56,12 +56,12 @@ func isNumeric(s string) bool {
 	return true
 }
 
-func SKUGenerator(sellerID int, product string, size string, color string) string {
+func SKUGenerator(userID string, product string, size string, color string) string {
 
 	productID := generateID(product)
 	sizeID := generateSizeID(size)
 	colorID := generateID(color)
-	result := fmt.Sprintf("%s-%s-%s-%03d", productID, sizeID, colorID, sellerID)
+	result := fmt.Sprintf("%s-%s-%s-%s", productID, sizeID, colorID, userID[:8])
 
 	return result
 }

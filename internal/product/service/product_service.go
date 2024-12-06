@@ -39,6 +39,10 @@ func generateAWSProductURL(bucket string, key string, endpoint string) string {
 	return fmt.Sprintf("%s/%s/%s", endpoint, bucket, key)
 }
 
+// func extractAWSProductURL(url string) string {
+// 	return
+// }
+
 func (product *ProductServiceImpl) CreateProduct(ctx context.Context, entity *dto.ProductCreateRequest) (*dto.ProductResponse, error) {
 	// Validate input
 	if entity == nil {
@@ -96,6 +100,7 @@ func (product *ProductServiceImpl) CreateProduct(ctx context.Context, entity *dt
 }
 
 func (product *ProductServiceImpl) UpdateProduct(ctx context.Context, entity *dto.ProductUpdateRequest) (*dto.ProductResponse, error) {
+
 	request := &model.Product{
 		ID:          entity.ID,
 		Name:        entity.Name,
@@ -118,10 +123,22 @@ func (product *ProductServiceImpl) DeleteProduct(ctx context.Context, entity *dt
 		UserID: entity.UserID,
 	}
 
+	// result, err := product.productRepo.FindProduct(ctx, request)
+	// if err != nil {
+	// 	return err
+	// }
+
 	err := product.productRepo.DeleteProduct(ctx, request)
 	if err != nil {
 		return err
 	}
+
+	// for _, image := range result.Images {
+	// 	err := product.awsRepo.RemoveObject(ctx, "product-store", path.Base(image))
+	// 	if err != nil {
+	// 		return err
+	// 	}
+	// }
 
 	return nil
 }

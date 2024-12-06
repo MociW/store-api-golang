@@ -17,44 +17,59 @@ func (s *Server) Boostrap() error {
 
 	/* ----------------------------- User Repository ---------------------------- */
 
-	userPostgresRepo := userRepo.NewUserPostgresRepository(s.db)
-	userAwsRepo := userRepo.NewAWSUserRepository(s.awsClient)
+	UserPostgresRepo := userRepo.NewUserPostgresRepository(s.db)
+	UserAwsRepo := userRepo.NewAWSUserRepository(s.awsClient)
 
 	/* --------------------------- Product Repository --------------------------- */
 
-	productAWSRepo := productRepo.NewProductAWSRepository(s.awsClient)
-	productRepo := productRepo.NewProductRepository(s.db)
+	ProductAWSRepo := productRepo.NewProductAWSRepository(s.awsClient)
+	ProductRepo := productRepo.NewProductRepository(s.db)
+	SkuRepo := productRepo.NewProductSKURepository(s.db)
 
 	/* ------------------------------ User Service ------------------------------ */
 
-	authService := userService.NewAuthService(s.cfg, userPostgresRepo)
-	userService := userService.NewUserService(s.cfg, userPostgresRepo, userAwsRepo)
+	AuthService := userService.NewAuthService(s.cfg, UserPostgresRepo)
+	UserService := userService.NewUserService(s.cfg, UserPostgresRepo, UserAwsRepo)
 
 	/* ----------------------------- Product Service ---------------------------- */
 
-	productService := productService.NewProductService(s.cfg, productRepo, productAWSRepo)
+	ProductService := productService.NewProductService(s.cfg, ProductRepo, ProductAWSRepo)
+	SkuService := productService.NewProductSKUService(s.cfg, SkuRepo)
 
 	/* ----------------------------- User Controller ---------------------------- */
 
-	authController := userController.NewAuthController(authService)
-	userController := userController.NewUserController(userService)
+	AuthController := userController.NewAuthController(AuthService)
+	UserController := userController.NewUserController(UserService)
 
 	/* --------------------------- Product Controller --------------------------- */
 
-	productController := productController.NewProductContoller(productService)
+	ProductController := productController.NewProductContoller(ProductService)
+	SkuController := productController.NewProductSKUController(SkuService)
 
 	user := s.app.Group("/users")
-	user.Post("/", authController.RegisterNewUser)
-	user.Post("/login", authController.LoginUser)
+	user.Post("/", AuthController.RegisterNewUser)
+	user.Post("/login", AuthController.LoginUser)
 
 	user.Use(middlewareSetup.AuthMiddleware)
-	user.Post("/avatar", userController.UploadAvatar)
-	user.Get("/me", userController.GetCurrentUser)
-	user.Post("/addresses", userController.RegisterNewAddress)
+	user.Get("/me", UserController.GetCurrentUser)
+	user.Post("/me/avatar", UserController.UploadAvatar)
+
+	user.Get("/me/addresses", UserController.ListAddress)
+	user.Get("/me/addresses/:address_id", UserController.FindAddress)
+	user.Post("/me/addresses", UserController.RegisterNewAddress)
 
 	product := s.app.Group("/products")
 	product.Use(middlewareSetup.AuthMiddleware)
-	product.Use("/add-product", productController.CreateProduct)
+	product.Get("/", ProductController.ListProduct)
+	product.Get("/:id", ProductController.FindProduct)
+	product.Post("/", ProductController.CreateProduct)
+	product.Delete("/:id", ProductController.DeleteProduct)
+	product.Put("/:id", ProductController.UpdateProduct)
+
+	product.Get("/:id", SkuController.ListSKU)
+	product.Get("/:id/skus/:sku_id", SkuController.FindSKU)
+	product.Post("/:id/skus", SkuController.CreateSKU)
+	product.Delete("/:id/skus/:sku_id", SkuController.DeleteSKU)
 
 	return nil
 }

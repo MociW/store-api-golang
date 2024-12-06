@@ -44,9 +44,20 @@ func ReadUserImageRequest(c *fiber.Ctx, fieldname string) (*user.UserUploadInput
 		return nil, c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Unsupported file type"})
 	}
 
+	fileExtension := ".jpg"
+	if contentType == "image/png" {
+		fileExtension = ".png"
+	}
+
+	if contentType == "image/jpeg" {
+		fileExtension = ".jpeg"
+	}
+
+	newFileName := fmt.Sprintf("%s%s", GenerateShortUUID(), fileExtension)
+
 	model := &user.UserUploadInput{
 		Object:      bytes.NewReader(buf.Bytes()),
-		ObjectName:  image.Filename,
+		ObjectName:  newFileName,
 		ObjectSize:  image.Size,
 		BucketName:  "avatar-user-store",
 		ContentType: contentType,
@@ -103,7 +114,7 @@ func ReadProductImageRequest(c *fiber.Ctx, fieldname string) (*product.ProductUp
 		Object:      bytes.NewReader(buf.Bytes()),
 		ObjectName:  newFileName,
 		ObjectSize:  image.Size,
-		BucketName:  "avatar-user-store",
+		BucketName:  "product-store",
 		ContentType: contentType,
 	}
 

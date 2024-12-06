@@ -19,4 +19,11 @@ type ProductService interface {
 }
 
 type ProductSKUService interface {
+	CreateSKU(ctx context.Context, entity *dto.ProductSKUCreateRequest) (*dto.ProductSKUResponese, error)
+
+	DeleteSKU(ctx context.Context, entity *dto.ProductSKUDeleteRequest) error
+
+	FindSKU(ctx context.Context, entity *dto.ProductSKUFindRequest) (*dto.ProductSKUResponese, error)
+
+	ListSKU(ctx context.Context, productID uint, userID string) ([]dto.ProductSKUResponese, error)
 }

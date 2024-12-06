@@ -47,7 +47,7 @@ func (r *ProductRepositoryImpl) UpdateProduct(ctx context.Context, entity *model
 	})
 
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "ProductRepository.Update.UpdateProduct")
 	}
 
 	return entity, nil
