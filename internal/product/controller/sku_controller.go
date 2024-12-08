@@ -17,6 +17,17 @@ func NewProductSKUController(skuService product.ProductSKUService) product.Produ
 	return &ProductSKUContollerImpl{SKUService: skuService}
 }
 
+// CreateSKU godoc
+//	@Summary		Create a SKU
+//	@Description	Create a new SKU for a product
+//	@Tags			sku
+//	@Accept			json
+//	@Produce		json
+//	@Param			sku	body		dto.ProductSKUCreateRequest	true	"SKU data"
+//	@Success		200	{object}	dto.ApiProductResponse
+//	@Failure		400	{object}	fiber.Map
+//	@Failure		500	{object}	fiber.Map
+//	@Router			/sku [post]
 func (product *ProductSKUContollerImpl) CreateSKU(c *fiber.Ctx) error {
 	claim := c.Locals("user").(*jwt.MapClaims)
 	userID, ok := (*claim)["id"].(string)
@@ -48,6 +59,17 @@ func (product *ProductSKUContollerImpl) CreateSKU(c *fiber.Ctx) error {
 	})
 }
 
+// DeleteSKU godoc
+//	@Summary		Delete a SKU
+//	@Description	Delete a SKU by ID
+//	@Tags			sku
+//	@Accept			json
+//	@Produce		json
+//	@Param			request	body		dto.ProductSKUDeleteRequest	true	"SKU delete request"
+//	@Success		200		{object}	dto.ApiProductResponse
+//	@Failure		400		{object}	fiber.Map
+//	@Failure		500		{object}	fiber.Map
+//	@Router			/sku [delete]
 func (product *ProductSKUContollerImpl) DeleteSKU(c *fiber.Ctx) error {
 	claim := c.Locals("user").(*jwt.MapClaims)
 	userID, ok := (*claim)["id"].(string)

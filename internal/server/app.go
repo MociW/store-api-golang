@@ -1,6 +1,7 @@
 package server
 
 import (
+	_ "github.com/MociW/store-api-golang/docs"
 	"github.com/MociW/store-api-golang/internal/middleware"
 	productController "github.com/MociW/store-api-golang/internal/product/controller"
 	productRepo "github.com/MociW/store-api-golang/internal/product/repository"
@@ -8,6 +9,7 @@ import (
 	userController "github.com/MociW/store-api-golang/internal/user/controller"
 	userRepo "github.com/MociW/store-api-golang/internal/user/repository"
 	userService "github.com/MociW/store-api-golang/internal/user/service"
+	"github.com/gofiber/swagger" // swagger handler
 )
 
 func (s *Server) Boostrap() error {
@@ -46,7 +48,10 @@ func (s *Server) Boostrap() error {
 	ProductController := productController.NewProductContoller(ProductService)
 	SkuController := productController.NewProductSKUController(SkuService)
 
-	user := s.app.Group("/users")
+	app := s.app.Group("/api/v1")
+	app.Get("/swagger/*", swagger.HandlerDefault)
+
+	user := app.Group("/users")
 	user.Post("/", AuthController.RegisterNewUser)
 	user.Post("/login", AuthController.LoginUser)
 

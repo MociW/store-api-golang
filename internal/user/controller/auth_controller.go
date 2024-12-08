@@ -17,6 +17,17 @@ func NewAuthController(authService user.AuthService) user.AuthController {
 	return &AuthControllerImpl{authService: authService}
 }
 
+// RegisterNewUser  godoc
+// @Summary      Register a new user
+// @Description  Create a new user account
+// @Tags         auth
+// @Accept       json
+// @Produce      json
+// @Param        user body dto.UserRegisterRequest true "User  registration request"
+// @Success      201  {object} dto.ApiUserResponse
+// @Failure      400  {object} fiber.Map
+// @Failure      500  {object} fiber.Map
+// @Router       /users [post]
 func (auth *AuthControllerImpl) RegisterNewUser(c *fiber.Ctx) error {
 	request := new(dto.UserRegisterRequest)
 	err := c.BodyParser(request)
@@ -25,10 +36,11 @@ func (auth *AuthControllerImpl) RegisterNewUser(c *fiber.Ctx) error {
 	}
 
 	if err := validator.ValidateStruct(c.UserContext(), request); err != nil {
+		result := validator.TranslateValidationErrors(err)
 		return c.Status(fiber.StatusCreated).JSON(dto.ApiUserResponse{
 			Status:  fiber.StatusCreated,
 			Message: "Account Created Successfully",
-			Data:    err.Error(),
+			Data:    result,
 		})
 	}
 
@@ -44,6 +56,18 @@ func (auth *AuthControllerImpl) RegisterNewUser(c *fiber.Ctx) error {
 	})
 }
 
+// LoginUser  godoc
+// @Summary      User login
+// @Description  Authenticate a user and return access and refresh tokens
+// @Tags         auth
+// @Accept       json
+// @Produce      json
+// @Param        user body dto.UserLoginRequest true "User  login request"
+// @Success      200  {object} dto.ApiUserResponse
+// @Failure      400  {object} fiber.Map
+// @Failure      401  {object} fiber.Map
+// @Failure      500  {object} fiber.Map
+// @Router       /users/login [post]
 func (auth *AuthControllerImpl) LoginUser(c *fiber.Ctx) error {
 	request := new(dto.UserLoginRequest)
 	err := c.BodyParser(request)

@@ -20,6 +20,18 @@ func NewProductContoller(productService product.ProductService) product.ProductC
 	return &ProductControllerImpl{productService: productService}
 }
 
+// CreateProduct godoc
+// @Summary      Create a new product
+// @Description  Create a new product with the provided details
+// @Tags         products
+// @Accept       json
+// @Produce      json
+// @Param        data  body      dto.ProductCreateRequest  true  "Product creation request"
+// @Success      201   {object}  dto.ApiProductResponse
+// @Failure      400   {object}  fiber.Map
+// @Failure      401   {object}  fiber.Map
+// @Failure      500   {object}  fiber.Map
+// @Router       /products [post]
 func (product *ProductControllerImpl) CreateProduct(c *fiber.Ctx) error {
 	// Extract user ID from the token
 	claim := c.Locals("user").(*jwt.MapClaims)
@@ -72,6 +84,18 @@ func (product *ProductControllerImpl) CreateProduct(c *fiber.Ctx) error {
 	})
 }
 
+// DeleteProduct godoc
+//
+//	@Summary		Delete a product
+//	@Description	Delete a product by ID
+//	@Tags			products
+//	@Accept			json
+//	@Produce		json
+//	@Param			request	body		dto.ProductDeleteRequest	true	"Product delete request"
+//	@Success		200		{object}	dto.ApiProductResponse
+//	@Failure		400		{object}	fiber.Map
+//	@Failure		500		{object}	fiber.Map
+//	@Router			/products [delete]
 func (product *ProductControllerImpl) DeleteProduct(c *fiber.Ctx) error {
 	claim := c.Locals("user").(*jwt.MapClaims)
 	userID, ok := (*claim)["id"].(string)
@@ -102,6 +126,18 @@ func (product *ProductControllerImpl) DeleteProduct(c *fiber.Ctx) error {
 	})
 }
 
+// UpdateProduct godoc
+//
+//	@Summary		Update a product
+//	@Description	Update an existing product
+//	@Tags			products
+//	@Accept			json
+//	@Produce		json
+//	@Param			product	body		dto.ProductUpdateRequest	true	"Product update request"
+//	@Success		200		{object}	dto.ApiProductResponse
+//	@Failure		400		{object}	fiber.Map
+//	@Failure		500		{object}	fiber.Map
+//	@Router			/products [put]
 func (product *ProductControllerImpl) UpdateProduct(c *fiber.Ctx) error {
 	claim := c.Locals("user").(*jwt.MapClaims)
 	userID, ok := (*claim)["id"].(string)
@@ -134,6 +170,18 @@ func (product *ProductControllerImpl) UpdateProduct(c *fiber.Ctx) error {
 	})
 }
 
+// FindProduct godoc
+//
+//	@Summary		Find a product
+//	@Description	Find a product by ID
+//	@Tags			products
+//	@Accept			json
+//	@Produce		json
+//	@Param			request	body		dto.ProductFindRequest	true	"Product find request"
+//	@Success		200		{object}	dto.ApiProductResponse
+//	@Failure		400		{object}	fiber.Map
+//	@Failure		500		{object}	fiber.Map
+//	@Router			/products [get]
 func (product *ProductControllerImpl) FindProduct(c *fiber.Ctx) error {
 	claim := c.Locals("user").(*jwt.MapClaims)
 	userID, ok := (*claim)["id"].(string)
@@ -166,6 +214,16 @@ func (product *ProductControllerImpl) FindProduct(c *fiber.Ctx) error {
 	})
 }
 
+// ListProduct godoc
+//
+//	@Summary		List products
+//	@Description	List all products for a user
+//	@Tags			products
+//	@Accept			json
+//	@Produce		json
+//	@Success		200	{object}	dto.ApiProductResponse
+//	@Failure		500	{object}	fiber.Map
+//	@Router			/products/list [get]
 func (product *ProductControllerImpl) ListProduct(c *fiber.Ctx) error {
 	claim := c.Locals("user").(*jwt.MapClaims)
 	userID, ok := (*claim)["id"].(string)
