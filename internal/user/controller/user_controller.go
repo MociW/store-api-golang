@@ -21,17 +21,18 @@ func NewUserController(userService user.UserService) user.UserController {
 /* ---------------------------------- User ---------------------------------- */
 
 // UpdateUser  godoc
-// @Summary      Update user information
-// @Description  Update the current user's information
-// @Tags         users
-// @Accept       json
-// @Produce      json
-// @Param        user body dto.UserUpdateRequest true "User  update request"
-// @Success      200  {object} dto.ApiUserResponse
-// @Failure      400  {object} fiber.Map
-// @Failure      401  {object} fiber.Map
-// @Failure      500  {object} fiber.Map
-// @Router       /users/me [put]
+//
+//	@Summary		Update user information
+//	@Description	Update the current user's information
+//	@Tags			users
+//	@Accept			json
+//	@Produce		json
+//	@Param			user	body		dto.UserUpdateRequest	true	"User  update request"
+//	@Success		200		{object}	dto.ApiUserResponse
+//	@Failure		400		{object}	fiber.Map
+//	@Failure		401		{object}	fiber.Map
+//	@Failure		500		{object}	fiber.Map
+//	@Router			/users/me [put]
 func (user *UserControllerImpl) UpdateUser(c *fiber.Ctx) error {
 
 	claim := c.Locals("user").(*jwt.MapClaims)
@@ -66,17 +67,18 @@ func (user *UserControllerImpl) UpdateUser(c *fiber.Ctx) error {
 }
 
 // UploadAvatar godoc
-// @Summary      Upload user avatar
-// @Description  Upload a new avatar for the current user
-// @Tags         users
-// @Accept       multipart/form-data
-// @Produce      json
-// @Param        img formData file true "User  avatar image"
-// @Success      200  {object} dto.ApiUserResponse
-// @Failure      400  {object} fiber.Map
-// @Failure      401  {object} fiber.Map
-// @Failure      500  {object} fiber.Map
-// @Router       /users/me/avatar [post]
+//
+//	@Summary		Upload user avatar
+//	@Description	Upload a new avatar for the current user
+//	@Tags			users
+//	@Accept			multipart/form-data
+//	@Produce		json
+//	@Param			img	formData	file	true	"User  avatar image"
+//	@Success		200	{object}	dto.ApiUserResponse
+//	@Failure		400	{object}	fiber.Map
+//	@Failure		401	{object}	fiber.Map
+//	@Failure		500	{object}	fiber.Map
+//	@Router			/users/me/avatar [post]
 func (user *UserControllerImpl) UploadAvatar(c *fiber.Ctx) error {
 
 	claim := c.Locals("user").(*jwt.MapClaims)
@@ -106,14 +108,15 @@ func (user *UserControllerImpl) UploadAvatar(c *fiber.Ctx) error {
 }
 
 // GetCurrentUser  godoc
-// @Summary      Get current user information
-// @Description  Retrieve the current user's information
-// @Tags         users
-// @Produce      json
-// @Success      200  {object} dto.ApiUserResponse
-// @Failure      401  {object} fiber.Map
-// @Failure      500  {object} fiber.Map
-// @Router       /users/me [get]
+//
+//	@Summary		Get current user information
+//	@Description	Retrieve the current user's information
+//	@Tags			users
+//	@Produce		json
+//	@Success		200	{object}	dto.ApiUserResponse
+//	@Failure		401	{object}	fiber.Map
+//	@Failure		500	{object}	fiber.Map
+//	@Router			/users/me [get]
 func (user *UserControllerImpl) GetCurrentUser(c *fiber.Ctx) error {
 	claim := c.Locals("user").(*jwt.MapClaims)
 
@@ -140,17 +143,18 @@ func (user *UserControllerImpl) GetCurrentUser(c *fiber.Ctx) error {
 /* --------------------------------- Address -------------------------------- */
 
 // RegisterNewAddress godoc
-// @Summary      Register a new address
-// @Description  Create a new address for the current user
-// @Tags         addresses
-// @Accept       json
-// @Produce      json
-// @Param        address body dto.CreateAddressRequest true "Address creation request"
-// @Success      201  {object} dto.ApiUserResponse
-// @Failure      400  {object} fiber.Map
-// @Failure      401  {object} fiber.Map
-// @Failure      500  {object} fiber.Map
-// @Router       /users/me/addresses [post]
+//
+//	@Summary		Register a new address
+//	@Description	Create a new address for the current user
+//	@Tags			addresses
+//	@Accept			json
+//	@Produce		json
+//	@Param			address	body		dto.CreateAddressRequest	true	"Address creation request"
+//	@Success		201		{object}	dto.ApiUserResponse
+//	@Failure		400		{object}	fiber.Map
+//	@Failure		401		{object}	fiber.Map
+//	@Failure		500		{object}	fiber.Map
+//	@Router			/users/me/addresses [post]
 func (user *UserControllerImpl) RegisterNewAddress(c *fiber.Ctx) error {
 	claim := c.Locals("user").(*jwt.MapClaims)
 
@@ -186,17 +190,18 @@ func (user *UserControllerImpl) RegisterNewAddress(c *fiber.Ctx) error {
 }
 
 // UpdateAddress godoc
-// @Summary      Update an existing address
-// @Description  Update an address for the current user
-// @Tags         addresses
-// @Accept       json
-// @Produce      json
-// @Param        address body dto.UpdateAddressRequest true "Address update request"
-// @Success      200  {object} dto.ApiUserResponse
-// @Failure      400  {object} fiber.Map
-// @Failure      401  {object} fiber.Map
-// @Failure      500  {object} fiber.Map
-// @Router       /users/me/addresses [put]
+//
+//	@Summary		Update an existing address
+//	@Description	Update an address for the current user
+//	@Tags			addresses
+//	@Accept			json
+//	@Produce		json
+//	@Param			address	body		dto.UpdateAddressRequest	true	"Address update request"
+//	@Success		200		{object}	dto.ApiUserResponse
+//	@Failure		400		{object}	fiber.Map
+//	@Failure		401		{object}	fiber.Map
+//	@Failure		500		{object}	fiber.Map
+//	@Router			/users/me/addresses [put]
 func (user *UserControllerImpl) UpdateAddress(c *fiber.Ctx) error {
 	claim := c.Locals("user").(*jwt.MapClaims)
 
@@ -232,17 +237,18 @@ func (user *UserControllerImpl) UpdateAddress(c *fiber.Ctx) error {
 }
 
 // FindAddress godoc
-// @Summary      Find an address
-// @Description  Retrieve a specific address for the current user
-// @Tags         addresses
-// @Accept       json
-// @Produce      json
-// @Param        address body dto.FindAddressRequest true "Address find request"
-// @Success      200  {object} dto.ApiUserResponse
-// @Failure      400  {object} fiber.Map
-// @Failure      401  {object} fiber.Map
-// @Failure      500  {object} fiber.Map
-// @Router       /users/me/addresses/{address_id} [get]
+//
+//	@Summary		Find an address
+//	@Description	Retrieve a specific address for the current user
+//	@Tags			addresses
+//	@Accept			json
+//	@Produce		json
+//	@Param			address	body		dto.FindAddressRequest	true	"Address find request"
+//	@Success		200		{object}	dto.ApiUserResponse
+//	@Failure		400		{object}	fiber.Map
+//	@Failure		401		{object}	fiber.Map
+//	@Failure		500		{object}	fiber.Map
+//	@Router			/users/me/addresses/{address_id} [get]
 func (user *UserControllerImpl) FindAddress(c *fiber.Ctx) error {
 	claim := c.Locals("user").(*jwt.MapClaims)
 
@@ -279,14 +285,15 @@ func (user *UserControllerImpl) FindAddress(c *fiber.Ctx) error {
 }
 
 // ListAddress godoc
-// @Summary      List all addresses
-// @Description  Retrieve all addresses for the current user
-// @Tags         addresses
-// @Produce      json
-// @Success      200  {object} dto.ApiUserResponse
-// @Failure      401  {object} fiber.Map
-// @Failure      500  {object} fiber.Map
-// @Router       /users/me/addresses [get]
+//
+//	@Summary		List all addresses
+//	@Description	Retrieve all addresses for the current user
+//	@Tags			addresses
+//	@Produce		json
+//	@Success		200	{object}	dto.ApiUserResponse
+//	@Failure		401	{object}	fiber.Map
+//	@Failure		500	{object}	fiber.Map
+//	@Router			/users/me/addresses [get]
 func (user *UserControllerImpl) ListAddress(c *fiber.Ctx) error {
 	claim := c.Locals("user").(*jwt.MapClaims)
 

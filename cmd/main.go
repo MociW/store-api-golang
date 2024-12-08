@@ -10,12 +10,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-// @version		1.0
-// @title			Store API
-// @description	API for managing store data
-// @BasePath		/api/v1
-// @host			localhost:3000
-// @schemes		http https
+//	@version		1.0
+//	@title			Store API
+//	@description	API for managing store data
+//	@BasePath		/api/v1
+//	@host			localhost:3000
+//	@schemes		http https
 func main() {
 	cfg, err := config.NewAppConfig()
 	if err != nil {

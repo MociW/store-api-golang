@@ -21,17 +21,18 @@ func NewProductContoller(productService product.ProductService) product.ProductC
 }
 
 // CreateProduct godoc
-// @Summary      Create a new product
-// @Description  Create a new product with the provided details
-// @Tags         products
-// @Accept       json
-// @Produce      json
-// @Param        data  body      dto.ProductCreateRequest  true  "Product creation request"
-// @Success      201   {object}  dto.ApiProductResponse
-// @Failure      400   {object}  fiber.Map
-// @Failure      401   {object}  fiber.Map
-// @Failure      500   {object}  fiber.Map
-// @Router       /products [post]
+//
+//	@Summary		Create a new product
+//	@Description	Create a new product with the provided details
+//	@Tags			products
+//	@Accept			json
+//	@Produce		json
+//	@Param			data	body		dto.ProductCreateRequest	true	"Product creation request"
+//	@Success		201		{object}	dto.ApiProductResponse
+//	@Failure		400		{object}	fiber.Map
+//	@Failure		401		{object}	fiber.Map
+//	@Failure		500		{object}	fiber.Map
+//	@Router			/products [post]
 func (product *ProductControllerImpl) CreateProduct(c *fiber.Ctx) error {
 	// Extract user ID from the token
 	claim := c.Locals("user").(*jwt.MapClaims)
