@@ -11,6 +11,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 )
 
 type AuthServiceImpl struct {
@@ -25,7 +26,7 @@ func NewAuthService(cfg *config.Config, pgRepo user.UserPostgresRepository) user
 func (auth *AuthServiceImpl) Register(ctx context.Context, entity *dto.UserRegisterRequest) (*dto.UserResponse, error) {
 	password, err := bcrypt.GenerateFromPassword([]byte(entity.Password), bcrypt.DefaultCost)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "failed to hash password")
 	}
 
 	id := uuid.New().String()
@@ -55,16 +56,22 @@ func (auth *AuthServiceImpl) Login(ctx context.Context, entity *dto.UserLoginReq
 
 	result, err := auth.pgRepo.FindByEmail(ctx, user)
 	if err != nil {
-		return nil, err
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, gorm.ErrRecordNotFound // Propagate "user not found" error
+		}
+		return nil, errors.Wrap(err, "AuthService.Login: error finding user")
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(result.Password), []byte(entity.Password)); err != nil {
-		return nil, err
+		if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) {
+			return nil, bcrypt.ErrMismatchedHashAndPassword // Propagate "invalid password" error
+		}
+		return nil, errors.Wrap(err, "AuthService.Login: password comparison failed")
 	}
 
 	accToken, refToken, err := util.GenerateTokenPair(result, auth.cfg)
 	if err != nil {
-		return nil, errors.Wrap(err, "AuthService.Login")
+		return nil, errors.Wrap(err, "AuthService.Login: token generation failed")
 	}
 
 	return &dto.JwtToken{

@@ -20,7 +20,7 @@ aws:
   UseSSL: false
 
 # bucket:
-#   MinioFirstBucket: avatar-user-store
-#   MinioSecondBucket: product-store
+#   MinioAvatarBucket: avatar-user-store
+#   MinioProductBucket: product-store
 
 

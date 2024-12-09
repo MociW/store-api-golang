@@ -21,17 +21,17 @@ func NewUserPostgresRepository(db *gorm.DB) user.UserPostgresRepository {
 /* ---------------------------------- User ---------------------------------- */
 
 func (r *UserPostgresRepositoryImpl) CreateUser(ctx context.Context, entity *model.User) (*model.User, error) {
-	// Ensure entity is not nil
-	if entity == nil {
-		return nil, errors.New("UserPostgresRepository.CreateUser: entity cannot be nil")
-	}
 
 	tx := r.DB.WithContext(ctx)
 	err := tx.Transaction(func(tx *gorm.DB) error {
-		err := tx.Where("email = ?", entity.Email).Omit("avatar", "phone_number").FirstOrCreate(entity).Error
+		result := tx.Where("email = ?", entity.Email).Omit("avatar", "phone_number").FirstOrCreate(entity)
 
-		if err != nil {
-			return errors.Wrap(err, "UserPostgresRepository.Register.CreateUser")
+		if result.RowsAffected == 0 {
+			return gorm.ErrRegistered
+		}
+
+		if result.Error != nil {
+			return errors.Wrap(result.Error, "UserPostgresRepository.Register.CreateUser")
 		}
 
 		return nil

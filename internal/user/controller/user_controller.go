@@ -29,9 +29,9 @@ func NewUserController(userService user.UserService) user.UserController {
 //	@Produce		json
 //	@Param			user	body		dto.UserUpdateRequest	true	"User  update request"
 //	@Success		200		{object}	dto.ApiUserResponse
-//	@Failure		400		{object}	fiber.Map
-//	@Failure		401		{object}	fiber.Map
-//	@Failure		500		{object}	fiber.Map
+//	@Failure		400		{object}	dto.ApiUserResponse
+//	@Failure		401		{object}	dto.ApiUserResponse
+//	@Failure		500		{object}	dto.ApiUserResponse
 //	@Router			/users/me [put]
 func (user *UserControllerImpl) UpdateUser(c *fiber.Ctx) error {
 
@@ -75,9 +75,9 @@ func (user *UserControllerImpl) UpdateUser(c *fiber.Ctx) error {
 //	@Produce		json
 //	@Param			img	formData	file	true	"User  avatar image"
 //	@Success		200	{object}	dto.ApiUserResponse
-//	@Failure		400	{object}	fiber.Map
-//	@Failure		401	{object}	fiber.Map
-//	@Failure		500	{object}	fiber.Map
+//	@Failure		400	{object}	dto.ApiUserResponse
+//	@Failure		401	{object}	dto.ApiUserResponse
+//	@Failure		500	{object}	dto.ApiUserResponse
 //	@Router			/users/me/avatar [post]
 func (user *UserControllerImpl) UploadAvatar(c *fiber.Ctx) error {
 
@@ -114,8 +114,8 @@ func (user *UserControllerImpl) UploadAvatar(c *fiber.Ctx) error {
 //	@Tags			users
 //	@Produce		json
 //	@Success		200	{object}	dto.ApiUserResponse
-//	@Failure		401	{object}	fiber.Map
-//	@Failure		500	{object}	fiber.Map
+//	@Failure		401	{object}	dto.ApiUserResponse
+//	@Failure		500	{object}	dto.ApiUserResponse
 //	@Router			/users/me [get]
 func (user *UserControllerImpl) GetCurrentUser(c *fiber.Ctx) error {
 	claim := c.Locals("user").(*jwt.MapClaims)
@@ -151,9 +151,9 @@ func (user *UserControllerImpl) GetCurrentUser(c *fiber.Ctx) error {
 //	@Produce		json
 //	@Param			address	body		dto.CreateAddressRequest	true	"Address creation request"
 //	@Success		201		{object}	dto.ApiUserResponse
-//	@Failure		400		{object}	fiber.Map
-//	@Failure		401		{object}	fiber.Map
-//	@Failure		500		{object}	fiber.Map
+//	@Failure		400		{object}	dto.ApiUserResponse
+//	@Failure		401		{object}	dto.ApiUserResponse
+//	@Failure		500		{object}	dto.ApiUserResponse
 //	@Router			/users/me/addresses [post]
 func (user *UserControllerImpl) RegisterNewAddress(c *fiber.Ctx) error {
 	claim := c.Locals("user").(*jwt.MapClaims)
@@ -198,9 +198,9 @@ func (user *UserControllerImpl) RegisterNewAddress(c *fiber.Ctx) error {
 //	@Produce		json
 //	@Param			address	body		dto.UpdateAddressRequest	true	"Address update request"
 //	@Success		200		{object}	dto.ApiUserResponse
-//	@Failure		400		{object}	fiber.Map
-//	@Failure		401		{object}	fiber.Map
-//	@Failure		500		{object}	fiber.Map
+//	@Failure		400		{object}	dto.ApiUserResponse
+//	@Failure		401		{object}	dto.ApiUserResponse
+//	@Failure		500		{object}	dto.ApiUserResponse
 //	@Router			/users/me/addresses [put]
 func (user *UserControllerImpl) UpdateAddress(c *fiber.Ctx) error {
 	claim := c.Locals("user").(*jwt.MapClaims)
@@ -245,9 +245,9 @@ func (user *UserControllerImpl) UpdateAddress(c *fiber.Ctx) error {
 //	@Produce		json
 //	@Param			address	body		dto.FindAddressRequest	true	"Address find request"
 //	@Success		200		{object}	dto.ApiUserResponse
-//	@Failure		400		{object}	fiber.Map
-//	@Failure		401		{object}	fiber.Map
-//	@Failure		500		{object}	fiber.Map
+//	@Failure		400		{object}	dto.ApiUserResponse
+//	@Failure		401		{object}	dto.ApiUserResponse
+//	@Failure		500		{object}	dto.ApiUserResponse
 //	@Router			/users/me/addresses/{address_id} [get]
 func (user *UserControllerImpl) FindAddress(c *fiber.Ctx) error {
 	claim := c.Locals("user").(*jwt.MapClaims)
@@ -291,8 +291,8 @@ func (user *UserControllerImpl) FindAddress(c *fiber.Ctx) error {
 //	@Tags			addresses
 //	@Produce		json
 //	@Success		200	{object}	dto.ApiUserResponse
-//	@Failure		401	{object}	fiber.Map
-//	@Failure		500	{object}	fiber.Map
+//	@Failure		401	{object}	dto.ApiUserResponse
+//	@Failure		500	{object}	dto.ApiUserResponse
 //	@Router			/users/me/addresses [get]
 func (user *UserControllerImpl) ListAddress(c *fiber.Ctx) error {
 	claim := c.Locals("user").(*jwt.MapClaims)

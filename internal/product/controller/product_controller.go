@@ -29,23 +29,29 @@ func NewProductContoller(productService product.ProductService) product.ProductC
 //	@Produce		json
 //	@Param			data	body		dto.ProductCreateRequest	true	"Product creation request"
 //	@Success		201		{object}	dto.ApiProductResponse
-//	@Failure		400		{object}	fiber.Map
-//	@Failure		401		{object}	fiber.Map
-//	@Failure		500		{object}	fiber.Map
+//	@Failure		400		{object}	dto.ApiProductResponse
+//	@Failure		401		{object}	dto.ApiProductResponse
+//	@Failure		500		{object}	dto.ApiProductResponse
 //	@Router			/products [post]
 func (product *ProductControllerImpl) CreateProduct(c *fiber.Ctx) error {
 	// Extract user ID from the token
 	claim := c.Locals("user").(*jwt.MapClaims)
 	userID, ok := (*claim)["id"].(string)
 	if !ok {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Invalid user ID in token"})
+		return c.Status(fiber.StatusUnauthorized).JSON(dto.ApiProductResponse{
+			Status:  fiber.StatusUnauthorized,
+			Message: "Invalid user ID in token",
+		})
 	}
 
 	// Parse the request body
 	request := new(dto.ProductCreateRequest)
 	data := c.FormValue("data")
 	if err := json.Unmarshal([]byte(data), &request); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid JSON data"})
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ApiProductResponse{
+			Status:  fiber.StatusBadRequest,
+			Message: "Invalid JSON data",
+		})
 	}
 
 	// Assign user ID to the request
@@ -73,8 +79,10 @@ func (product *ProductControllerImpl) CreateProduct(c *fiber.Ctx) error {
 	// Call the service to create the product
 	response, err := product.productService.CreateProduct(c.UserContext(), request)
 	if err != nil {
-		log.Printf("Error creating product: %v", err)
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to create product"})
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ApiProductResponse{
+			Status:  fiber.StatusInternalServerError,
+			Message: "Failed to create product",
+		})
 	}
 
 	// Return the response
@@ -94,21 +102,26 @@ func (product *ProductControllerImpl) CreateProduct(c *fiber.Ctx) error {
 //	@Produce		json
 //	@Param			request	body		dto.ProductDeleteRequest	true	"Product delete request"
 //	@Success		200		{object}	dto.ApiProductResponse
-//	@Failure		400		{object}	fiber.Map
-//	@Failure		500		{object}	fiber.Map
+//	@Failure		400		{object}	dto.ApiProductResponse
+//	@Failure		401		{object}	dto.ApiProductResponse
+//	@Failure		500		{object}	dto.ApiProductResponse
 //	@Router			/products [delete]
 func (product *ProductControllerImpl) DeleteProduct(c *fiber.Ctx) error {
 	claim := c.Locals("user").(*jwt.MapClaims)
 	userID, ok := (*claim)["id"].(string)
 	if !ok {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Invalid user ID in token"})
+		return c.Status(fiber.StatusUnauthorized).JSON(dto.ApiProductResponse{
+			Status:  fiber.StatusUnauthorized,
+			Message: "Invalid user ID in token",
+		})
 	}
 
 	request := new(dto.ProductDeleteRequest)
 	err := c.BodyParser(request)
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": "Invalid request payload",
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ApiProductResponse{
+			Status:  fiber.StatusBadRequest,
+			Message: "Invalid request payload",
 		})
 	}
 
@@ -116,8 +129,10 @@ func (product *ProductControllerImpl) DeleteProduct(c *fiber.Ctx) error {
 
 	err = product.productService.DeleteProduct(c.UserContext(), request)
 	if err != nil {
-		log.Printf("Error creating product: %v", err)
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to Delete product"})
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ApiProductResponse{
+			Status:  fiber.StatusInternalServerError,
+			Message: "Failed to Delete product",
+		})
 	}
 
 	// Return the response
@@ -136,21 +151,26 @@ func (product *ProductControllerImpl) DeleteProduct(c *fiber.Ctx) error {
 //	@Produce		json
 //	@Param			product	body		dto.ProductUpdateRequest	true	"Product update request"
 //	@Success		200		{object}	dto.ApiProductResponse
-//	@Failure		400		{object}	fiber.Map
-//	@Failure		500		{object}	fiber.Map
+//	@Failure		400		{object}	dto.ApiProductResponse
+//	@Failure		401		{object}	dto.ApiProductResponse
+//	@Failure		500		{object}	dto.ApiProductResponse
 //	@Router			/products [put]
 func (product *ProductControllerImpl) UpdateProduct(c *fiber.Ctx) error {
 	claim := c.Locals("user").(*jwt.MapClaims)
 	userID, ok := (*claim)["id"].(string)
 	if !ok {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Invalid user ID in token"})
+		return c.Status(fiber.StatusUnauthorized).JSON(dto.ApiProductResponse{
+			Status:  fiber.StatusUnauthorized,
+			Message: "Invalid user ID in token",
+		})
 	}
 
 	request := new(dto.ProductUpdateRequest)
 	err := c.BodyParser(request)
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": "Invalid request payload",
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ApiProductResponse{
+			Status:  fiber.StatusBadRequest,
+			Message: "Invalid request payload",
 		})
 	}
 
@@ -159,8 +179,10 @@ func (product *ProductControllerImpl) UpdateProduct(c *fiber.Ctx) error {
 	response, err := product.productService.UpdateProduct(c.UserContext(), request)
 
 	if err != nil {
-		log.Printf("Error creating product: %v", err)
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to Delete product"})
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ApiProductResponse{
+			Status:  fiber.StatusInternalServerError,
+			Message: "Failed to Delete product",
+		})
 	}
 
 	// Return the response
@@ -180,31 +202,37 @@ func (product *ProductControllerImpl) UpdateProduct(c *fiber.Ctx) error {
 //	@Produce		json
 //	@Param			request	body		dto.ProductFindRequest	true	"Product find request"
 //	@Success		200		{object}	dto.ApiProductResponse
-//	@Failure		400		{object}	fiber.Map
-//	@Failure		500		{object}	fiber.Map
+//	@Failure		400		{object}	dto.ApiProductResponse
+//	@Failure		401		{object}	dto.ApiProductResponse
+//	@Failure		500		{object}	dto.ApiProductResponse
 //	@Router			/products [get]
 func (product *ProductControllerImpl) FindProduct(c *fiber.Ctx) error {
 	claim := c.Locals("user").(*jwt.MapClaims)
 	userID, ok := (*claim)["id"].(string)
 	if !ok {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Invalid user ID in token"})
+		return c.Status(fiber.StatusUnauthorized).JSON(dto.ApiProductResponse{
+			Status:  fiber.StatusUnauthorized,
+			Message: "Invalid user ID in token",
+		})
 	}
 
 	request := new(dto.ProductFindRequest)
 	err := c.BodyParser(request)
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": "Invalid request payload",
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ApiProductResponse{
+			Status:  fiber.StatusBadRequest,
+			Message: "Invalid request payload",
 		})
 	}
 
 	request.UserID = userID
 
 	response, err := product.productService.FindProduct(c.UserContext(), request)
-
 	if err != nil {
-		log.Printf("Error creating product: %v", err)
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to Find Data"})
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ApiProductResponse{
+			Status:  fiber.StatusInternalServerError,
+			Message: "Failed to Find Data",
+		})
 	}
 
 	// Return the response
@@ -223,20 +251,26 @@ func (product *ProductControllerImpl) FindProduct(c *fiber.Ctx) error {
 //	@Accept			json
 //	@Produce		json
 //	@Success		200	{object}	dto.ApiProductResponse
-//	@Failure		500	{object}	fiber.Map
+//	@Failure		401	{object}	dto.ApiProductResponse
+//	@Failure		500	{object}	dto.ApiProductResponse
 //	@Router			/products/list [get]
 func (product *ProductControllerImpl) ListProduct(c *fiber.Ctx) error {
 	claim := c.Locals("user").(*jwt.MapClaims)
 	userID, ok := (*claim)["id"].(string)
 	if !ok {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Invalid user ID in token"})
+		return c.Status(fiber.StatusUnauthorized).JSON(dto.ApiProductResponse{
+			Status:  fiber.StatusUnauthorized,
+			Message: "Invalid user ID in token",
+		})
 	}
 
 	response, err := product.productService.ListProduct(c.UserContext(), userID)
 
 	if err != nil {
-		log.Printf("Error creating product: %v", err)
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to Delete product"})
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ApiProductResponse{
+			Status:  fiber.StatusInternalServerError,
+			Message: "Failed to Delete product",
+		})
 	}
 
 	// Return the response

@@ -1,8 +1,5 @@
 basePath: /api/v1
 definitions:
-  fiber.Map:
-    additionalProperties: true
-    type: object
   github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse:
     properties:
       data: {}
@@ -154,12 +151,9 @@ definitions:
         maxLength: 100
         type: string
       password:
-        maxLength: 100
-        minLength: 8
         type: string
     required:
     - email
-    - password
     type: object
   github_com_MociW_store-api-golang_internal_user_model_dto.UserRegisterRequest:
     properties:
@@ -232,11 +226,15 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse'
       summary: Delete a product
       tags:
       - products
@@ -261,11 +259,15 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse'
       summary: Find a product
       tags:
       - products
@@ -290,15 +292,15 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse'
       summary: Create a new product
       tags:
       - products
@@ -323,11 +325,15 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse'
       summary: Update a product
       tags:
       - products
@@ -343,10 +349,14 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse'
       summary: List products
       tags:
       - products
@@ -372,12 +382,45 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse'
       summary: Delete a SKU
+      tags:
+      - sku
+    get:
+      consumes:
+      - application/json
+      description: List Product SKU
+      parameters:
+      - description: SKU data
+        in: body
+        name: sku
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ProductSKUCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse'
+      summary: List SKU
       tags:
       - sku
     post:
@@ -401,11 +444,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse'
       summary: Create a SKU
       tags:
       - sku
@@ -431,11 +474,15 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse'
       summary: Register a new user
       tags:
       - auth
@@ -461,15 +508,15 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse'
       summary: User login
       tags:
       - auth
@@ -486,11 +533,11 @@ paths:
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse'
       summary: Get current user information
       tags:
       - users
@@ -515,15 +562,15 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse'
       summary: Update user information
       tags:
       - users
@@ -540,11 +587,11 @@ paths:
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse'
       summary: List all addresses
       tags:
       - addresses
@@ -569,15 +616,15 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse'
       summary: Register a new address
       tags:
       - addresses
@@ -602,15 +649,15 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse'
       summary: Update an existing address
       tags:
       - addresses
@@ -636,15 +683,15 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse'
       summary: Find an address
       tags:
       - addresses
@@ -669,15 +716,15 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/fiber.Map'
+            $ref: '#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse'
       summary: Upload user avatar
       tags:
       - users

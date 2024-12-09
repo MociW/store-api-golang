@@ -12,7 +12,7 @@ type UserRegisterRequest struct {
 
 type UserLoginRequest struct {
 	Email    string `json:"email" validate:"required,max=100,email"`
-	Password string `json:"password" validate:"required,min=8,max=100"`
+	Password string `json:"password"`
 }
 
 type UserUpdateRequest struct {

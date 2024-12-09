@@ -49,13 +49,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse"
                         }
                     }
                 }
@@ -93,13 +99,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse"
                         }
                     }
                 }
@@ -137,19 +149,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse"
                         }
                     }
                 }
@@ -187,13 +199,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse"
                         }
                     }
                 }
@@ -219,16 +237,72 @@ const docTemplate = `{
                             "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse"
                         }
                     },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse"
+                        }
+                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse"
                         }
                     }
                 }
             }
         },
         "/sku": {
+            "get": {
+                "description": "List Product SKU",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sku"
+                ],
+                "summary": "List SKU",
+                "parameters": [
+                    {
+                        "description": "SKU data",
+                        "name": "sku",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ProductSKUCreateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "Create a new SKU for a product",
                 "consumes": [
@@ -262,13 +336,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse"
                         }
                     }
                 }
@@ -306,13 +380,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse"
                         }
                     }
                 }
@@ -352,13 +426,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse"
                         }
                     }
                 }
@@ -398,19 +478,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse"
                         }
                     }
                 }
@@ -436,13 +516,13 @@ const docTemplate = `{
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse"
                         }
                     }
                 }
@@ -480,19 +560,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse"
                         }
                     }
                 }
@@ -518,13 +598,13 @@ const docTemplate = `{
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse"
                         }
                     }
                 }
@@ -562,19 +642,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse"
                         }
                     }
                 }
@@ -612,19 +692,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse"
                         }
                     }
                 }
@@ -664,19 +744,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse"
                         }
                     }
                 }
@@ -714,19 +794,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "$ref": "#/definitions/github_com_MociW_store-api-golang_internal_user_model_dto.ApiUserResponse"
                         }
                     }
                 }
@@ -734,10 +814,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "fiber.Map": {
-            "type": "object",
-            "additionalProperties": true
-        },
         "github_com_MociW_store-api-golang_internal_product_model_dto.ApiProductResponse": {
             "type": "object",
             "properties": {
@@ -953,8 +1029,7 @@ const docTemplate = `{
         "github_com_MociW_store-api-golang_internal_user_model_dto.UserLoginRequest": {
             "type": "object",
             "required": [
-                "email",
-                "password"
+                "email"
             ],
             "properties": {
                 "email": {
@@ -962,9 +1037,7 @@ const docTemplate = `{
                     "maxLength": 100
                 },
                 "password": {
-                    "type": "string",
-                    "maxLength": 100,
-                    "minLength": 8
+                    "type": "string"
                 }
             }
         },

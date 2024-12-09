@@ -63,7 +63,7 @@ func (s *Server) Boostrap() error {
 	user.Get("/me/addresses/:address_id", UserController.FindAddress)
 	user.Post("/me/addresses", UserController.RegisterNewAddress)
 
-	product := s.app.Group("/products")
+	product := app.Group("/products")
 	product.Use(middlewareSetup.AuthMiddleware)
 	product.Get("/", ProductController.ListProduct)
 	product.Get("/:id", ProductController.FindProduct)
