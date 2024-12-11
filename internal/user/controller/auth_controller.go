@@ -35,8 +35,7 @@ func NewAuthController(authService user.AuthService) user.AuthController {
 //	@Router			/users [post]
 func (auth *AuthControllerImpl) RegisterNewUser(c *fiber.Ctx) error {
 	request := new(dto.UserRegisterRequest)
-	err := c.BodyParser(request)
-	if err != nil {
+	if err := c.BodyParser(request); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(dto.ApiUserResponse{
 			Status:  fiber.StatusBadRequest,
 			Message: "Invalid request body",
@@ -44,11 +43,11 @@ func (auth *AuthControllerImpl) RegisterNewUser(c *fiber.Ctx) error {
 	}
 
 	if err := validator.ValidateStruct(c.UserContext(), request); err != nil {
-		result := validator.TranslateValidationErrors(err)
+		response := validator.TranslateValidationErrors(err)
 		return c.Status(fiber.StatusBadRequest).JSON(dto.ApiUserResponse{
 			Status:  fiber.StatusBadRequest,
 			Message: "Validation failed",
-			Data:    result,
+			Data:    response,
 		})
 	}
 
@@ -58,13 +57,11 @@ func (auth *AuthControllerImpl) RegisterNewUser(c *fiber.Ctx) error {
 			return c.Status(fiber.StatusConflict).JSON(dto.ApiUserResponse{
 				Status:  fiber.StatusConflict,
 				Message: "User already exists",
-				Data:    nil,
 			})
 		}
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ApiUserResponse{
 			Status:  fiber.StatusInternalServerError,
 			Message: "Internal server error",
-			Data:    nil,
 		})
 	}
 

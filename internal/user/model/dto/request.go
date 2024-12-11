@@ -16,7 +16,7 @@ type UserLoginRequest struct {
 }
 
 type UserUpdateRequest struct {
-	UserID      string `json:"user_id"`
+	UserID      string `json:"user_id" validate:"required"`
 	FirstName   string `json:"first_name" validate:"omitempty,max=100,alpha"`
 	LastName    string `json:"last_name" validate:"omitempty,max=100,alpha"`
 	Email       string `json:"email" validate:"omitempty,max=100,email"`
@@ -45,8 +45,8 @@ type UpdateAddressRequest struct {
 }
 
 type DeleteAddressRequest struct {
-	UserID string `json:"user_id"`
-	ID     uint   `json:"id"`
+	UserID string `json:"user_id" validate:"required"`
+	ID     uint   `json:"id" validate:"required,gt=0"`
 }
 
 type FindAddressRequest struct {

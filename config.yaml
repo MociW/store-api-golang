@@ -22,5 +22,3 @@ aws:
 # bucket:
 #   MinioAvatarBucket: avatar-user-store
 #   MinioProductBucket: product-store
-
-

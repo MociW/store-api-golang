@@ -48,10 +48,16 @@ func (r *UserPostgresRepositoryImpl) UpdateUser(ctx context.Context, entity *mod
 	tx := r.DB.WithContext(ctx)
 
 	err := tx.Transaction(func(tx *gorm.DB) error {
-		err := tx.Model(&model.User{}).Where("user_id = ?", entity.UserID).Updates(entity).Error
-		if err != nil {
-			return errors.Wrap(err, "UserPostgresRepository.Update.UpdateUser")
+		result := tx.Model(&model.User{}).Where("user_id = ?", entity.UserID).Updates(entity)
+
+		if result.RowsAffected == 0 {
+			return gorm.ErrInvalidData
 		}
+
+		if result.Error != nil {
+			return errors.Wrap(result.Error, "UserPostgresRepository.Update.UpdateUser")
+		}
+
 		return nil
 	})
 
