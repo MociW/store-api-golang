@@ -10,7 +10,7 @@ Store API is a RESTful API built with Go (Golang) for managing store data, inclu
 - Image upload functionality for user avatars and product images
 - Swagger documentation for API endpoints
 
-## Installation
+## Installation Guide
 
 ### Prerequisites
 - Go (version 1.18 or higher)
@@ -33,22 +33,22 @@ Store API is a RESTful API built with Go (Golang) for managing store data, inclu
 3. Set up environment variables: `config.yaml`
     ```yml
     server:
-       Host: HOST_NAME
-       Port: HOST_NAME
-       JWTSecretKey: JWT_KEY
+    Host: "<YOUR_SERVER_HOST>"
+    Port: "<YOUR_SERVER_PORT>"
+    JWTSecretKey: "<YOUR_JWT_SECRET_KEY>"
 
-    database: 
-      Host: HOST_NAME
-      Port: HOST_NAME
-      User: DATABASE_USERNAME
-      Password: DATABASE_PASSWORD
-      NameDB: DATABASE_NAME
+   database:
+    Host: "<DATABASE_HOST>"
+    Port: "<DATABASE_PORT>"
+    User: "<DATABASE_USERNAME>"
+    Password: "<DATABASE_PASSWORD>"
+    NameDB: "<DATABASE_NAME>"
 
-    aws:
-      Endpoint: ENDPOINT_NAME
-      MinioAccessKey: MINIO_USERNAME
-      MinioSecretKet: MINIO_PASSWORD
-      UseSSL: MINIO_SSL
+   aws:
+     Endpoint: "<AWS_ENDPOINT>"
+     MinioAccessKey: "<MINIO_ACCESS_KEY>"
+     MinioSecretKey: "<MINIO_SECRET_KEY>"
+     UseSSL: true/false
     ```
 
 4. Run the application:
@@ -58,7 +58,7 @@ Store API is a RESTful API built with Go (Golang) for managing store data, inclu
 
 5. Access Swagger documentation:
     ```bash
-    http://localhost:8080/swagger/index.html
+    https://{YOUR_SERVER_HOST:YOUR_SERVER_PORT}/swagger/index.html
     ```
 
 ## API Endpoints
