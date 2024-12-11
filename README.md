@@ -33,16 +33,16 @@ Store API is a RESTful API built with Go (Golang) for managing store data, inclu
 3. Set up environment variables: `config.yaml`
     ```yml
     server:
-    Host: "<YOUR_SERVER_HOST>"
-    Port: "<YOUR_SERVER_PORT>"
-    JWTSecretKey: "<YOUR_JWT_SECRET_KEY>"
+     Host: "<YOUR_SERVER_HOST>"
+     Port: "<YOUR_SERVER_PORT>"
+     JWTSecretKey: "<YOUR_JWT_SECRET_KEY>"
 
    database:
-    Host: "<DATABASE_HOST>"
-    Port: "<DATABASE_PORT>"
-    User: "<DATABASE_USERNAME>"
-    Password: "<DATABASE_PASSWORD>"
-    NameDB: "<DATABASE_NAME>"
+     Host: "<DATABASE_HOST>"
+     Port: "<DATABASE_PORT>"
+     User: "<DATABASE_USERNAME>"
+     Password: "<DATABASE_PASSWORD>"
+     NameDB: "<DATABASE_NAME>"
 
    aws:
      Endpoint: "<AWS_ENDPOINT>"
