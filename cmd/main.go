@@ -3,10 +3,11 @@ package main
 import (
 	"log"
 
+	"github.com/MociW/store-api-golang/config"
 	"github.com/MociW/store-api-golang/internal/server"
-	"github.com/MociW/store-api-golang/pkg/config"
 	"github.com/MociW/store-api-golang/pkg/database/aws"
 	"github.com/MociW/store-api-golang/pkg/database/postgres"
+	"github.com/MociW/store-api-golang/pkg/logger"
 )
 
 // @version		1.0
@@ -31,10 +32,16 @@ func main() {
 		log.Fatalf("Error: %v", err)
 	}
 
+	loggerService := logger.NewLogger(cfg)
+	if loggerService == nil {
+		log.Fatal("Logger is empty")
+	}
+
 	s := server.NewServeConfig(&server.ServeConfig{
 		Cfg:       cfg,
 		Db:        psql,
 		AwsClient: awsClient,
+		Logger:    loggerService,
 	})
 
 	if err := s.Run(); err != nil {

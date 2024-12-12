@@ -8,10 +8,11 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/MociW/store-api-golang/pkg/config"
+	"github.com/MociW/store-api-golang/config"
 	"github.com/gofiber/fiber/v2"
 	"github.com/minio/minio-go/v7"
 	"github.com/pkg/errors"
+	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 )
 
@@ -25,6 +26,7 @@ type ServeConfig struct {
 	Cfg       *config.Config
 	Db        *gorm.DB
 	AwsClient *minio.Client
+	Logger    *logrus.Logger
 }
 
 type Server struct {
@@ -32,6 +34,7 @@ type Server struct {
 	db        *gorm.DB
 	awsClient *minio.Client
 	app       *fiber.App
+	logger    *logrus.Logger
 }
 
 func NewServeConfig(config *ServeConfig) *Server {
@@ -39,6 +42,7 @@ func NewServeConfig(config *ServeConfig) *Server {
 		cfg:       config.Cfg,
 		db:        config.Db,
 		awsClient: config.AwsClient,
+		logger:    config.Logger,
 	}
 }
 

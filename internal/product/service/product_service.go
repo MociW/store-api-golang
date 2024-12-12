@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/MociW/store-api-golang/config"
 	"github.com/MociW/store-api-golang/internal/product"
 	"github.com/MociW/store-api-golang/internal/product/model"
 	"github.com/MociW/store-api-golang/internal/product/model/dto"
-	"github.com/MociW/store-api-golang/pkg/config"
 )
 
 type ProductServiceImpl struct {

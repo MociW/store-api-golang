@@ -3,10 +3,10 @@ package service
 import (
 	"context"
 
+	"github.com/MociW/store-api-golang/config"
 	"github.com/MociW/store-api-golang/internal/product"
 	"github.com/MociW/store-api-golang/internal/product/model"
 	"github.com/MociW/store-api-golang/internal/product/model/dto"
-	"github.com/MociW/store-api-golang/pkg/config"
 	"github.com/MociW/store-api-golang/pkg/util"
 	"github.com/pkg/errors"
 )

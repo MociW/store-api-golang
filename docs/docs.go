@@ -1076,6 +1076,9 @@ const docTemplate = `{
         },
         "github_com_MociW_store-api-golang_internal_user_model_dto.UserUpdateRequest": {
             "type": "object",
+            "required": [
+                "user_id"
+            ],
             "properties": {
                 "email": {
                     "type": "string",

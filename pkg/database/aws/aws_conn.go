@@ -1,7 +1,7 @@
 package aws
 
 import (
-	"github.com/MociW/store-api-golang/pkg/config"
+	"github.com/MociW/store-api-golang/config"
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
 	"github.com/pkg/errors"

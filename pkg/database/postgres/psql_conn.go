@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/MociW/store-api-golang/pkg/config"
+	"github.com/MociW/store-api-golang/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )

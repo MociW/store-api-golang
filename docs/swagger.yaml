@@ -196,6 +196,8 @@ definitions:
         type: string
       user_id:
         type: string
+    required:
+    - user_id
     type: object
 host: localhost:3000
 info:

@@ -16,6 +16,7 @@ import (
 func (s *Server) Boostrap() error {
 	middlewareSetup := middleware.NewMiddlewareManager(&middleware.MiddlewareConfig{
 		Config: s.cfg,
+		Logger: s.logger,
 	})
 
 	/* ----------------------------- User Repository ---------------------------- */
@@ -49,9 +50,11 @@ func (s *Server) Boostrap() error {
 	ProductController := productController.NewProductContoller(ProductService)
 	SkuController := productController.NewProductSKUController(SkuService)
 
+	s.app.Use(middlewareSetup.LoggerMidddleware)
+
 	app := s.app.Group("/api/v1")
 	app.Get("/ping", func(c *fiber.Ctx) error {
-		return c.SendStatus(fiber.StatusOK)
+		return c.Status(fiber.StatusOK).SendString("Pong!")
 	})
 	app.Get("/swagger/*", swagger.HandlerDefault)
 

@@ -3,8 +3,8 @@ package util
 import (
 	"time"
 
+	"github.com/MociW/store-api-golang/config"
 	"github.com/MociW/store-api-golang/internal/user/model"
-	"github.com/MociW/store-api-golang/pkg/config"
 	"github.com/golang-jwt/jwt/v5"
 )
 

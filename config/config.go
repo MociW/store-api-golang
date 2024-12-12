@@ -11,6 +11,7 @@ type Config struct {
 	Server   ServerConfig
 	Postgres PostgresConfig
 	AWS      AwsConfig
+	Logger   LoggerConfig
 }
 
 type ServerConfig struct {
@@ -28,6 +29,13 @@ type PostgresConfig struct {
 	Host     string
 	Port     int
 	NameDB   string
+}
+
+type LoggerConfig struct {
+	Level       string
+	Caller      bool
+	Encoding    string
+	Development bool
 }
 
 type AwsConfig struct {

@@ -25,3 +25,10 @@ aws:
 # bucket:
 #   MinioAvatarBucket: avatar-user-store
 #   MinioProductBucket: product-store
+
+# ------------------------------- Logger Config ------------------------------ #
+logger:
+  Level: trace # Required [trace, debug, info, warn, error, fatal, panic]
+  Caller: true # Required [true, false]
+  Encoding: text # Optional [json, text], default json
+  Development: true

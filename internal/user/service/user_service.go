@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/MociW/store-api-golang/config"
 	"github.com/MociW/store-api-golang/internal/user"
 	"github.com/MociW/store-api-golang/internal/user/model"
 	"github.com/MociW/store-api-golang/internal/user/model/dto"
-	"github.com/MociW/store-api-golang/pkg/config"
 )
 
 type UserServiceImpl struct {

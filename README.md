@@ -15,7 +15,7 @@ Store API is a RESTful API built with Go (Golang) for managing store data, inclu
 ### Prerequisites
 - Go (version 1.18 or higher)
 - PostgreSQL database (version 13 or higher)
-- AWS account (for image storage)
+- Minio Object Storage
 
 ### Steps
 1. Clone the repository:
