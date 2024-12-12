@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/spf13/viper"
 )
@@ -15,6 +16,9 @@ type Config struct {
 type ServerConfig struct {
 	Host         string
 	Port         int
+	ReadTimeout  time.Duration
+	WriteTimeout time.Duration
+	SSL          bool
 	JWTSecretKey string
 }
 

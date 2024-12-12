@@ -3,6 +3,10 @@ package server
 import (
 	"fmt"
 	"log"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
 	"github.com/MociW/store-api-golang/pkg/config"
 	"github.com/gofiber/fiber/v2"
@@ -11,23 +15,27 @@ import (
 	"gorm.io/gorm"
 )
 
+const (
+	ctxTimeout = 5
+	certFile   = "./certs/server.crt"
+	keyFile    = "./certs/server.key"
+)
+
 type ServeConfig struct {
-	App       *fiber.App
 	Cfg       *config.Config
 	Db        *gorm.DB
 	AwsClient *minio.Client
 }
 
 type Server struct {
-	app       *fiber.App
 	cfg       *config.Config
 	db        *gorm.DB
 	awsClient *minio.Client
+	app       *fiber.App
 }
 
 func NewServeConfig(config *ServeConfig) *Server {
 	return &Server{
-		app:       config.App,
 		cfg:       config.Cfg,
 		db:        config.Db,
 		awsClient: config.AwsClient,
@@ -35,33 +43,59 @@ func NewServeConfig(config *ServeConfig) *Server {
 }
 
 func (s *Server) Run() error {
+	s.app = fiber.New(fiber.Config{
+		ReadTimeout:  time.Duration(s.cfg.Server.ReadTimeout) * time.Second,
+		WriteTimeout: time.Duration(s.cfg.Server.WriteTimeout) * time.Second,
+	})
 
 	if err := s.Boostrap(); err != nil {
 		return errors.Wrap(err, "Server.Run.Bootstrap")
 	}
 
-	// cert := &tls.Config{
-	// 	MinVersion:   tls.VersionTLS12,
-	// 	Certificates: []tls.Certificate{},
-	// }
+	addr := fmt.Sprintf("%s:%d", s.cfg.Server.Host, s.cfg.Server.Port)
 
-	// err := s.app.Listen(fmt.Sprintf(":%d", s.cfg.Server.Port))
-	// if err != nil {
-	// 	log.Fatalf("Failed to start server: %v", err)
-	// }
+	if s.cfg.Server.SSL {
+		serverError := make(chan error)
 
-	err := s.app.ListenTLS(fmt.Sprintf(":%d", s.cfg.Server.Port), "certs/server.crt", "certs/server.key")
-	if err != nil {
-		log.Fatalf("Failed to start server: %v", err)
+		go func() {
+			serverError <- s.app.ListenTLS(addr, certFile, keyFile)
+		}()
+
+		quit := make(chan os.Signal, 1)
+		signal.Notify(quit, os.Interrupt, syscall.SIGTERM)
+
+		select {
+		case err := <-serverError:
+			log.Fatalf("Failed to start TLS server: %v", err)
+		case <-quit:
+			if err := s.app.Shutdown(); err != nil {
+				log.Fatalf("Error gracefully shutting down server: %v", err)
+			}
+			log.Println("Server exited properly")
+			return nil
+		}
+
+	} else {
+		serverError := make(chan error)
+
+		go func() {
+			serverError <- s.app.Listen(addr)
+		}()
+
+		quit := make(chan os.Signal, 1)
+		signal.Notify(quit, os.Interrupt, syscall.SIGTERM)
+
+		select {
+		case err := <-serverError:
+			log.Fatalf("Failed to start TLS server: %v", err)
+		case <-quit:
+			if err := s.app.Shutdown(); err != nil {
+				log.Fatalf("Error gracefully shutting down server: %v", err)
+			}
+			log.Println("Server exited properly")
+			return nil
+		}
 	}
-
-	// ln, _ := net.Listen("tcp", fmt.Sprintf(":%d", s.cfg.Server.Port))
-
-	// cer, _ := tls.LoadX509KeyPair("certs/server.crt", "certs/server.key")
-
-	// ln = tls.NewListener(ln, &tls.Config{Certificates: []tls.Certificate{cer}})
-
-	// s.app.Listener(ln)
 
 	return nil
 }

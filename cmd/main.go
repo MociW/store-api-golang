@@ -7,15 +7,14 @@ import (
 	"github.com/MociW/store-api-golang/pkg/config"
 	"github.com/MociW/store-api-golang/pkg/database/aws"
 	"github.com/MociW/store-api-golang/pkg/database/postgres"
-	"github.com/gofiber/fiber/v2"
 )
 
-//	@version		1.0
-//	@title			Store API
-//	@description	API for managing store data
-//	@BasePath		/api/v1
-//	@host			localhost:3000
-//	@schemes		http https
+// @version		1.0
+// @title			Store API
+// @description	API for managing store data
+// @BasePath		/api/v1
+// @host			localhost:3000
+// @schemes		http https
 func main() {
 	cfg, err := config.NewAppConfig()
 	if err != nil {
@@ -32,10 +31,7 @@ func main() {
 		log.Fatalf("Error: %v", err)
 	}
 
-	app := fiber.New()
-
 	s := server.NewServeConfig(&server.ServeConfig{
-		App:       app,
 		Cfg:       cfg,
 		Db:        psql,
 		AwsClient: awsClient,

@@ -9,6 +9,7 @@ import (
 	userController "github.com/MociW/store-api-golang/internal/user/controller"
 	userRepo "github.com/MociW/store-api-golang/internal/user/repository"
 	userService "github.com/MociW/store-api-golang/internal/user/service"
+	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/swagger" // swagger handler
 )
 
@@ -49,6 +50,9 @@ func (s *Server) Boostrap() error {
 	SkuController := productController.NewProductSKUController(SkuService)
 
 	app := s.app.Group("/api/v1")
+	app.Get("/ping", func(c *fiber.Ctx) error {
+		return c.SendStatus(fiber.StatusOK)
+	})
 	app.Get("/swagger/*", swagger.HandlerDefault)
 
 	user := app.Group("/users")
