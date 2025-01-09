@@ -13,7 +13,7 @@ type Config struct {
 	AWS      AwsConfig
 	Logger   LoggerConfig
 	Redis    RedisConfig
-	Mail     MailConfing
+	Mail     MailConfig
 }
 
 type ServerConfig struct {
@@ -55,7 +55,7 @@ type RedisConfig struct {
 	Db       int
 }
 
-type MailConfing struct {
+type MailConfig struct {
 	Host     string
 	Port     int
 	User     string
