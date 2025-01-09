@@ -11,6 +11,7 @@ type Config struct {
 	Server   ServerConfig
 	Postgres PostgresConfig
 	AWS      AwsConfig
+<<<<<<< HEAD:config/config.go
 	Logger   LoggerConfig
 	Redis    RedisConfig
 	Mail     MailConfing

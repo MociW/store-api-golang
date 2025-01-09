@@ -8,6 +8,7 @@ import (
 	"syscall"
 	"time"
 
+<<<<<<< HEAD
 	"github.com/MociW/store-api-golang/config"
 	"github.com/MociW/store-api-golang/pkg/email"
 	"github.com/gofiber/fiber/v2"
@@ -15,6 +16,14 @@ import (
 	"github.com/pkg/errors"
 	"github.com/redis/go-redis/v9"
 	"github.com/sirupsen/logrus"
+=======
+	"github.com/MociW/store-api-golang/pkg/config"
+	"github.com/MociW/store-api-golang/pkg/email"
+	"github.com/gofiber/fiber/v2"
+	"github.com/minio/minio-go/v7"
+	"github.com/pkg/errors"
+	"github.com/redis/go-redis/v9"
+>>>>>>> b5db15a8bb084ecb08d3cfbd59e7d88d79375b51
 	"gorm.io/gorm"
 )
 
@@ -28,6 +37,7 @@ type ServeConfig struct {
 	Cfg       *config.Config
 	Db        *gorm.DB
 	AwsClient *minio.Client
+<<<<<<< HEAD
 	Logger    *logrus.Logger
 	Redis     *redis.Client
 	Mail      email.EmailService
@@ -37,6 +47,7 @@ type Server struct {
 	cfg       *config.Config
 	db        *gorm.DB
 	awsClient *minio.Client
+<<<<<<< HEAD
 	app       *fiber.App
 	logger    *logrus.Logger
 	redis     *redis.Client
@@ -48,6 +59,7 @@ func NewServeConfig(config *ServeConfig) *Server {
 		cfg:       config.Cfg,
 		db:        config.Db,
 		awsClient: config.AwsClient,
+<<<<<<< HEAD
 		logger:    config.Logger,
 		redis:     config.Redis,
 		mail:      config.Mail,
@@ -60,10 +72,11 @@ func (s *Server) Run() error {
 		WriteTimeout: time.Duration(s.cfg.Server.WriteTimeout) * time.Second,
 	})
 
-	if err := s.Boostrap(); err != nil {
+	if err := s.Bootstrap(); err != nil {
 		return errors.Wrap(err, "Server.Run.Bootstrap")
 	}
 
+<<<<<<< HEAD
 	addr := fmt.Sprintf("%s:%d", s.cfg.Server.Host, s.cfg.Server.Port)
 
 	if s.cfg.Server.SSL {
@@ -107,6 +120,11 @@ func (s *Server) Run() error {
 			log.Println("Server exited properly")
 			return nil
 		}
+=======
+	err := s.app.ListenTLS(fmt.Sprintf(":%d", s.cfg.Server.Port), "certs/server+3.pem", "certs/server+3-key.pem")
+	if err != nil {
+		log.Fatalf("Failed to start server: %v", err)
+>>>>>>> b5db15a8bb084ecb08d3cfbd59e7d88d79375b51
 	}
 
 	return nil

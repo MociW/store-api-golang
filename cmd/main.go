@@ -10,6 +10,11 @@ import (
 	"github.com/MociW/store-api-golang/pkg/database/redis"
 	"github.com/MociW/store-api-golang/pkg/email"
 	"github.com/MociW/store-api-golang/pkg/logger"
+=======
+	"github.com/MociW/store-api-golang/pkg/database/redis"
+	"github.com/MociW/store-api-golang/pkg/email"
+	"github.com/gofiber/fiber/v2"
+>>>>>>> b5db15a8bb084ecb08d3cfbd59e7d88d79375b51
 )
 
 // @version		1.0
@@ -34,6 +39,7 @@ func main() {
 		log.Fatalf("Error: %v", err)
 	}
 
+<<<<<<< HEAD
 	loggerService := logger.NewLogger(cfg)
 	if loggerService == nil {
 		log.Fatal("Logger is empty")
@@ -47,6 +53,7 @@ func main() {
 		Cfg:       cfg,
 		Db:        psql,
 		AwsClient: awsClient,
+<<<<<<< HEAD
 		Logger:    loggerService,
 		Redis:     redisClient,
 		Mail:      mailClient,

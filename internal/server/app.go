@@ -13,7 +13,7 @@ import (
 	"github.com/gofiber/swagger" // swagger handler
 )
 
-func (s *Server) Boostrap() error {
+func (s *Server) Bootstrap() error {
 	middlewareSetup := middleware.NewMiddlewareManager(&middleware.MiddlewareConfig{
 		Config: s.cfg,
 		Logger: s.logger,
@@ -47,7 +47,7 @@ func (s *Server) Boostrap() error {
 
 	/* --------------------------- Product Controller --------------------------- */
 
-	ProductController := productController.NewProductContoller(ProductService)
+	ProductController := productController.NewProductController(ProductService)
 	SkuController := productController.NewProductSKUController(SkuService)
 
 	s.app.Use(middlewareSetup.LoggerMidddleware)
