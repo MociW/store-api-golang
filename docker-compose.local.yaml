@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+    minio:
+        image: minio/minio:latest
+        container_name: minio_db
+        ports:
+            - "9000:9000"
+            - "9001:9001"
+        environment:
+            MINIO_ROOT_USER: admin
+            MINIO_ROOT_PASSWORD: WqYNmSnOBT
+        volumes:
+            - minio_data:/data
+        command: server --console-address ":9001" /data
+        networks:
+            - network_db
+
+    postgresql:
+        image: postgres:16-alpine
+        container_name: postgres_db
+        ports:
+            - "5444:5432"
+        restart: always
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_DB: store_db
+        volumes:
+            - postgres-db-volume:/var/lib/postgresql/data/
+        networks:
+            - network_db
+
+networks:
+    network_db:
+        driver: bridge
+
+volumes:
+    minio_data:
+    postgres-db-volume:
