@@ -4,7 +4,7 @@ server:
     Port: 3000
     ReadTimeout: 5
     WriteTimeout: 5
-    SSL: true
+    SSL: false
     JWTSecretKey: 95d1c361b680578a9a6e8aa4a4fcf3fe02484cbf7a38906258eaed13ac1ca4ce
 
 # ------------------------------ Postgres Config ----------------------------- #
