@@ -8,6 +8,7 @@ CREATE TABLE "users" (
     "email" VARCHAR(255) UNIQUE NOT NULL,
     "password" VARCHAR(255),
     "phone_number" VARCHAR(20),
+    "verified_at" TIMESTAMP NULL,
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "deleted_at" TIMESTAMP NULL

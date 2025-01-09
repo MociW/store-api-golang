@@ -7,15 +7,17 @@ import (
 	"github.com/MociW/store-api-golang/pkg/config"
 	"github.com/MociW/store-api-golang/pkg/database/aws"
 	"github.com/MociW/store-api-golang/pkg/database/postgres"
+	"github.com/MociW/store-api-golang/pkg/database/redis"
+	"github.com/MociW/store-api-golang/pkg/email"
 	"github.com/gofiber/fiber/v2"
 )
 
-//	@version		1.0
-//	@title			Store API
-//	@description	API for managing store data
-//	@BasePath		/api/v1
-//	@host			localhost:3000
-//	@schemes		http https
+// @version		1.0
+// @title			Store API
+// @description	API for managing store data
+// @BasePath		/api/v1
+// @host			localhost:3000
+// @schemes		http https
 func main() {
 	cfg, err := config.NewAppConfig()
 	if err != nil {
@@ -32,6 +34,10 @@ func main() {
 		log.Fatalf("Error: %v", err)
 	}
 
+	redisClient := redis.NewRedis(cfg)
+
+	mailClient := email.NewEmailService(cfg)
+
 	app := fiber.New()
 
 	s := server.NewServeConfig(&server.ServeConfig{
@@ -39,6 +45,8 @@ func main() {
 		Cfg:       cfg,
 		Db:        psql,
 		AwsClient: awsClient,
+		Redis:     redisClient,
+		Mail:      mailClient,
 	})
 
 	if err := s.Run(); err != nil {

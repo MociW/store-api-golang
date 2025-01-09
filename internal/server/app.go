@@ -12,7 +12,7 @@ import (
 	"github.com/gofiber/swagger" // swagger handler
 )
 
-func (s *Server) Boostrap() error {
+func (s *Server) Bootstrap() error {
 	middlewareSetup := middleware.NewMiddlewareManager(&middleware.MiddlewareConfig{
 		Config: s.cfg,
 	})
@@ -30,7 +30,7 @@ func (s *Server) Boostrap() error {
 
 	/* ------------------------------ User Service ------------------------------ */
 
-	AuthService := userService.NewAuthService(s.cfg, UserPostgresRepo)
+	AuthService := userService.NewAuthService(s.cfg, UserPostgresRepo, s.redis, s.mail)
 	UserService := userService.NewUserService(s.cfg, UserPostgresRepo, UserAwsRepo)
 
 	/* ----------------------------- Product Service ---------------------------- */
@@ -45,7 +45,7 @@ func (s *Server) Boostrap() error {
 
 	/* --------------------------- Product Controller --------------------------- */
 
-	ProductController := productController.NewProductContoller(ProductService)
+	ProductController := productController.NewProductController(ProductService)
 	SkuController := productController.NewProductSKUController(SkuService)
 
 	app := s.app.Group("/api/v1")
@@ -53,6 +53,7 @@ func (s *Server) Boostrap() error {
 
 	user := app.Group("/users")
 	user.Post("/", AuthController.RegisterNewUser)
+	user.Post("/validate-otp", AuthController.ValidateUser)
 	user.Post("/login", AuthController.LoginUser)
 
 	user.Use(middlewareSetup.AuthMiddleware)

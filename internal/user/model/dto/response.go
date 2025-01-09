@@ -34,6 +34,10 @@ type UserResponse struct {
 	Products    []dto.ProductResponse `json:"products,omitempty"`
 }
 
+type UserRegisterResponse struct {
+	ReferenceID string `json:"reference_id"`
+}
+
 type AddressResponse struct {
 	ID         uint   `json:"id"`
 	Title      string `json:"title"`
