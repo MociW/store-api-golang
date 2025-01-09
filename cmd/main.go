@@ -7,6 +7,8 @@ import (
 	"github.com/MociW/store-api-golang/internal/server"
 	"github.com/MociW/store-api-golang/pkg/database/aws"
 	"github.com/MociW/store-api-golang/pkg/database/postgres"
+	"github.com/MociW/store-api-golang/pkg/database/redis"
+	"github.com/MociW/store-api-golang/pkg/email"
 	"github.com/MociW/store-api-golang/pkg/logger"
 )
 
@@ -37,11 +39,17 @@ func main() {
 		log.Fatal("Logger is empty")
 	}
 
+	redisClient := redis.NewRedis(cfg)
+
+	mailClient := email.NewEmailService(cfg)
+
 	s := server.NewServeConfig(&server.ServeConfig{
 		Cfg:       cfg,
 		Db:        psql,
 		AwsClient: awsClient,
 		Logger:    loggerService,
+		Redis:     redisClient,
+		Mail:      mailClient,
 	})
 
 	if err := s.Run(); err != nil {

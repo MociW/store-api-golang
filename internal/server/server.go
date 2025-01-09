@@ -9,9 +9,11 @@ import (
 	"time"
 
 	"github.com/MociW/store-api-golang/config"
+	"github.com/MociW/store-api-golang/pkg/email"
 	"github.com/gofiber/fiber/v2"
 	"github.com/minio/minio-go/v7"
 	"github.com/pkg/errors"
+	"github.com/redis/go-redis/v9"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 )
@@ -27,6 +29,8 @@ type ServeConfig struct {
 	Db        *gorm.DB
 	AwsClient *minio.Client
 	Logger    *logrus.Logger
+	Redis     *redis.Client
+	Mail      email.EmailService
 }
 
 type Server struct {
@@ -35,6 +39,8 @@ type Server struct {
 	awsClient *minio.Client
 	app       *fiber.App
 	logger    *logrus.Logger
+	redis     *redis.Client
+	mail      email.EmailService
 }
 
 func NewServeConfig(config *ServeConfig) *Server {
@@ -43,6 +49,8 @@ func NewServeConfig(config *ServeConfig) *Server {
 		db:        config.Db,
 		awsClient: config.AwsClient,
 		logger:    config.Logger,
+		redis:     config.Redis,
+		mail:      config.Mail,
 	}
 }
 

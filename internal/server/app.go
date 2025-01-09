@@ -32,7 +32,7 @@ func (s *Server) Boostrap() error {
 
 	/* ------------------------------ User Service ------------------------------ */
 
-	AuthService := userService.NewAuthService(s.cfg, UserPostgresRepo)
+	AuthService := userService.NewAuthService(s.cfg, UserPostgresRepo, s.redis, s.mail)
 	UserService := userService.NewUserService(s.cfg, UserPostgresRepo, UserAwsRepo)
 
 	/* ----------------------------- Product Service ---------------------------- */
@@ -60,6 +60,7 @@ func (s *Server) Boostrap() error {
 
 	user := app.Group("/users")
 	user.Post("/", AuthController.RegisterNewUser)
+	user.Post("/validate-otp", AuthController.ValidateUser)
 	user.Post("/login", AuthController.LoginUser)
 
 	user.Use(middlewareSetup.AuthMiddleware)

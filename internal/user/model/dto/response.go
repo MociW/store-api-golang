@@ -17,6 +17,10 @@ type UserTokenResponse struct {
 	Jwt     JwtToken `json:"jwt"`
 }
 
+type UserRegisterResponse struct {
+	ReferenceID string `json:"reference_id"`
+}
+
 type JwtToken struct {
 	AccessToken  string `json:"access_Token"`
 	RefreshToken string `json:"refresh_token"`

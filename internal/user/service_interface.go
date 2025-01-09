@@ -8,7 +8,9 @@ import (
 )
 
 type AuthService interface {
-	Register(ctx context.Context, entity *dto.UserRegisterRequest) (*dto.UserResponse, error)
+	Register(ctx context.Context, entity *dto.UserRegisterRequest) (*dto.UserRegisterResponse, error)
+
+	ValidateUser(ctx context.Context, entity *dto.UserValidateRequest) error
 
 	Login(ctx context.Context, entity *dto.UserLoginRequest) (*dto.JwtToken, error)
 }

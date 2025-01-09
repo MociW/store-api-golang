@@ -72,6 +72,29 @@ func (auth *AuthControllerImpl) RegisterNewUser(c *fiber.Ctx) error {
 	})
 }
 
+func (auth *AuthControllerImpl) ValidateUser(c *fiber.Ctx) error {
+	request := new(dto.UserValidateRequest)
+	err := c.BodyParser(request)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Invalid request payload",
+		})
+	}
+
+	err = auth.authService.ValidateUser(c.UserContext(), request)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ApiUserResponse{
+			Status:  fiber.StatusBadRequest,
+			Message: "Validation failed",
+		})
+	}
+
+	return c.Status(fiber.StatusCreated).JSON(dto.ApiUserResponse{
+		Status:  fiber.StatusCreated,
+		Message: "Account Validate Successfully",
+	})
+}
+
 // LoginUser  godoc
 //
 //	@Summary		User login
@@ -148,7 +171,7 @@ func (auth *AuthControllerImpl) LoginUser(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(dto.ApiUserResponse{
 		Status:  fiber.StatusOK,
-		Message: "Login successful",
+		Message: "Login Successfully",
 		Data:    response,
 	})
 }

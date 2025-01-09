@@ -12,6 +12,8 @@ type Config struct {
 	Postgres PostgresConfig
 	AWS      AwsConfig
 	Logger   LoggerConfig
+	Redis    RedisConfig
+	Mail     MailConfing
 }
 
 type ServerConfig struct {
@@ -44,6 +46,20 @@ type AwsConfig struct {
 	MinioAccessKey string
 	MinioSecretKey string
 	UseSSL         bool
+}
+
+type RedisConfig struct {
+	Host     string
+	Port     int
+	Password string
+	Db       int
+}
+
+type MailConfing struct {
+	Host     string
+	Port     int
+	User     string
+	Password string
 }
 
 func NewAppConfig() (*Config, error) {
