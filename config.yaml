@@ -1,17 +1,11 @@
 # -------------------------------- App Config -------------------------------- #
 server:
-<<<<<<< HEAD
-  Host: 0.0.0.0
-  Port: 3000
-  ReadTimeout: 5
-  WriteTimeout: 5
-  SSL: true
-  JWTSecretKey: 95d1c361b680578a9a6e8aa4a4fcf3fe02484cbf7a38906258eaed13ac1ca4ce
-=======
     Host: 0.0.0.0
     Port: 3000
+    ReadTimeout: 5
+    WriteTimeout: 5
+    SSL: true
     JWTSecretKey: 95d1c361b680578a9a6e8aa4a4fcf3fe02484cbf7a38906258eaed13ac1ca4ce
->>>>>>> b5db15a8bb084ecb08d3cfbd59e7d88d79375b51
 
 # ------------------------------ Postgres Config ----------------------------- #
 postgres:
@@ -43,12 +37,9 @@ mail:
 #   MinioAvatarBucket: avatar-user-store
 #   MinioProductBucket: product-store
 
-<<<<<<< HEAD
 # ------------------------------- Logger Config ------------------------------ #
 logger:
-  Level: trace # Required [trace, debug, info, warn, error, fatal, panic]
-  Caller: true # Required [true, false]
-  Encoding: text # Optional [json, text], default json
-  Development: true
-=======
->>>>>>> b5db15a8bb084ecb08d3cfbd59e7d88d79375b51
+    Level: trace # Required [trace, debug, info, warn, error, fatal, panic]
+    Caller: true # Required [true, false]
+    Encoding: text # Optional [json, text], default json
+    Development: true

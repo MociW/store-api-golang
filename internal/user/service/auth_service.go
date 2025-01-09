@@ -16,7 +16,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"github.com/redis/go-redis/v9"
-	"github.com/redis/go-redis/v9"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
@@ -26,17 +25,12 @@ type AuthServiceImpl struct {
 	pgRepo user.UserPostgresRepository
 	rdb    *redis.Client
 	mail   email.EmailService
-	rdb    *redis.Client
-	mail   email.EmailService
 }
 
 func NewAuthService(cfg *config.Config, pgRepo user.UserPostgresRepository, rdb *redis.Client, mail email.EmailService) user.AuthService {
 	return &AuthServiceImpl{cfg: cfg, pgRepo: pgRepo, rdb: rdb, mail: mail}
-func NewAuthService(cfg *config.Config, pgRepo user.UserPostgresRepository, rdb *redis.Client, mail email.EmailService) user.AuthService {
-	return &AuthServiceImpl{cfg: cfg, pgRepo: pgRepo, rdb: rdb, mail: mail}
 }
 
-func (auth *AuthServiceImpl) Register(ctx context.Context, entity *dto.UserRegisterRequest) (*dto.UserRegisterResponse, error) {
 func (auth *AuthServiceImpl) Register(ctx context.Context, entity *dto.UserRegisterRequest) (*dto.UserRegisterResponse, error) {
 	password, err := bcrypt.GenerateFromPassword([]byte(entity.Password), bcrypt.DefaultCost)
 	if err != nil {
@@ -54,7 +48,6 @@ func (auth *AuthServiceImpl) Register(ctx context.Context, entity *dto.UserRegis
 		Password:  string(password),
 	}
 
-	_, err = auth.pgRepo.CreateUser(ctx, user)
 	_, err = auth.pgRepo.CreateUser(ctx, user)
 	if err != nil {
 		return nil, errors.Wrap(err, "AuthService.Register")
@@ -130,14 +123,14 @@ func (auth *AuthServiceImpl) Login(ctx context.Context, entity *dto.UserLoginReq
 	result, err := auth.pgRepo.FindByEmail(ctx, user)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, gorm.ErrRecordNotFound // Propagate "user not found" error
+			return nil, gorm.ErrRecordNotFound
 		}
 		return nil, errors.Wrap(err, "AuthService.Login: error finding user")
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(result.Password), []byte(entity.Password)); err != nil {
 		if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) {
-			return nil, bcrypt.ErrMismatchedHashAndPassword // Propagate "invalid password" error
+			return nil, bcrypt.ErrMismatchedHashAndPassword
 		}
 		return nil, errors.Wrap(err, "AuthService.Login: password comparison failed")
 	}

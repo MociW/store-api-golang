@@ -3,8 +3,6 @@ package model
 import (
 	"database/sql"
 
-	"database/sql"
-
 	productModel "github.com/MociW/store-api-golang/internal/product/model"
 	"gorm.io/gorm"
 )
