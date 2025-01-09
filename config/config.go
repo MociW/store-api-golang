@@ -11,7 +11,12 @@ type Config struct {
 	Server   ServerConfig
 	Postgres PostgresConfig
 	AWS      AwsConfig
+<<<<<<< HEAD:config/config.go
 	Logger   LoggerConfig
+=======
+	Redis    RedisConfig
+	Mail     MainConfig
+>>>>>>> b5db15a8bb084ecb08d3cfbd59e7d88d79375b51:pkg/config/viper.go
 }
 
 type ServerConfig struct {
@@ -44,6 +49,20 @@ type AwsConfig struct {
 	MinioAccessKey string
 	MinioSecretKey string
 	UseSSL         bool
+}
+
+type RedisConfig struct {
+	Host     string
+	Port     int
+	Password string
+	Db       int
+}
+
+type MainConfig struct {
+	Host     string
+	Port     int
+	User     string
+	Password string
 }
 
 func NewAppConfig() (*Config, error) {

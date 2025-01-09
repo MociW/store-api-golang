@@ -170,3 +170,8 @@ func (product *ProductServiceImpl) ListProduct(ctx context.Context, id string) (
 
 	return responses, nil
 }
+
+// func (product *ProductSKUServiceImpl) generateListProductPdf(ctx context.Context, id string) error {
+// 	tableHeadings := []string{"Product", "SKU", "Price", "Quantity"}
+// 	content:=
+// }

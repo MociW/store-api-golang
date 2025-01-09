@@ -21,10 +21,10 @@ clean:
 	docker system prune -f
 
 # --------------------------------- Migration -------------------------------- #
-migrateup:
+migrate_up:
 	migrate -path db/migrations -database "postgresql://postgres:postgres@localhost:5444/store_db?sslmode=disable" -verbose up
 
-migratedown:
+migrate_down:
 	migrate -path db/migrations -database "postgresql://postgres:postgres@localhost:5444/store_db?sslmode=disable" -verbose down
 
 # ----------------------------- SSL/TLS commands ----------------------------- #
@@ -37,5 +37,5 @@ gen_private_key:
 gen_self_signed_cert:
 	openssl req -new -x509 -sha256 -key server.key -out server.crt -days 3650
 
-.PHONY: start test coverage local down-local clean migrateup migratedown gen_private_key gen_self_signed_cert
+.PHONY: start test coverage local down-local clean migrate_up migrate_down gen_private_key gen_self_signed_cert
 

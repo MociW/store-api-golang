@@ -23,6 +23,11 @@ type UserUpdateRequest struct {
 	PhoneNumber string `json:"phone_number" validate:"omitempty,max=13,numeric"`
 }
 
+type UserValidate struct {
+	ReferenceID string `json:"reference_id"`
+	OTP         string `json:"otp"`
+}
+
 /* ----------------------------- Address Request ---------------------------- */
 
 type CreateAddressRequest struct {

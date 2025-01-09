@@ -5,6 +5,8 @@ import "github.com/gofiber/fiber/v2"
 type AuthController interface {
 	RegisterNewUser(c *fiber.Ctx) error
 
+	ValidateUser(c *fiber.Ctx) error
+
 	LoginUser(c *fiber.Ctx) error
 }
 
