@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"strconv"
+
 	"github.com/MociW/store-api-golang/internal/product"
 	"github.com/MociW/store-api-golang/internal/product/model/dto"
 	"github.com/gofiber/fiber/v2"
@@ -37,8 +39,16 @@ func (product *ProductSKUContollerImpl) CreateSKU(c *fiber.Ctx) error {
 		})
 	}
 
+	productID, err := strconv.ParseUint(c.Params("id"), 10, 32)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ApiProductResponse{
+			Status:  fiber.StatusUnauthorized,
+			Message: "Invalid user ID in token",
+		})
+	}
+
 	request := new(dto.ProductSKUCreateRequest)
-	err := c.BodyParser(request)
+	err = c.BodyParser(request)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(dto.ApiProductResponse{
 			Status:  fiber.StatusBadRequest,
@@ -47,12 +57,13 @@ func (product *ProductSKUContollerImpl) CreateSKU(c *fiber.Ctx) error {
 	}
 
 	request.UserID = userID
+	request.ProductID = uint(productID)
 
 	response, err := product.SKUService.CreateSKU(c.UserContext(), request)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ApiProductResponse{
 			Status:  fiber.StatusInternalServerError,
-			Message: "Failed to Delete product",
+			Message: "Failed to Create Data",
 		})
 	}
 

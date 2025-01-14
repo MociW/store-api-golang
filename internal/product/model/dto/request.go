@@ -34,14 +34,14 @@ type ProductFindRequest struct {
 /* ------------------------------- Product SKU ------------------------------ */
 
 type ProductSKUCreateRequest struct {
-	ProductID uint    `json:"product_id"`
+	ProductID uint    `json:"-"`
 	Name      string  `json:"name"`
 	Size      string  `json:"size"`
 	Color     string  `json:"color"`
 	SKU       string  `json:"sku"`
 	Price     float32 `json:"price"`
 	Quantity  int     `json:"quantity"`
-	UserID    string  `json:"user_id"`
+	UserID    string  `json:"-"`
 }
 
 type ProductSKUUpdateRequest struct {
@@ -52,22 +52,22 @@ type ProductSKUUpdateRequest struct {
 	SKU       string  `json:"sku"`
 	Price     float32 `json:"price"`
 	Quantity  int     `json:"quantity"`
-	UserID    string  `json:"user_id"`
+	UserID    string  `json:"-"`
 }
 
 type ProductSKUDeleteRequest struct {
 	ID        uint   `json:"id"`
 	ProductID uint   `json:"product_id"`
-	UserID    string `json:"user_id"`
+	UserID    string `json:"-"`
 }
 
 type ProductSKUFindRequest struct {
 	ID        uint   `json:"id"`
 	ProductID uint   `json:"product_id"`
-	UserID    string `json:"user_id"`
+	UserID    string `json:"-"`
 }
 
 type ProductSKUListRequest struct {
 	ProductID uint   `json:"product_id"`
-	UserID    string `json:"user_id"`
+	UserID    string `json:"-"`
 }

@@ -57,7 +57,7 @@ func ConvertProductResponse(entity *model.Product) *ProductResponse {
 func ConvertSKUResponse(entity *model.ProductSKU) *ProductSKUResponese {
 	return &ProductSKUResponese{
 		ID:        entity.ID,
-		ProductID: entity.ID,
+		ProductID: entity.ProductID,
 		Size:      entity.Size,
 		Color:     entity.Color,
 		SKU:       entity.SKU,

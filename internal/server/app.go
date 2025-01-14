@@ -65,6 +65,7 @@ func (s *Server) Bootstrap() error {
 
 	user.Use(middlewareSetup.AuthMiddleware)
 	user.Get("/me", UserController.GetCurrentUser)
+	user.Put("/me", UserController.UpdateUser)
 	user.Post("/me/avatar", UserController.UploadAvatar)
 
 	user.Get("/me/addresses", UserController.ListAddress)

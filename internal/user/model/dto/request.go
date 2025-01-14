@@ -16,7 +16,7 @@ type UserLoginRequest struct {
 }
 
 type UserUpdateRequest struct {
-	UserID      string `json:"user_id" validate:"required"`
+	UserID      string `json:"-"`
 	FirstName   string `json:"first_name" validate:"omitempty,max=100,alpha"`
 	LastName    string `json:"last_name" validate:"omitempty,max=100,alpha"`
 	Email       string `json:"email" validate:"omitempty,max=100,email"`
@@ -31,7 +31,7 @@ type UserValidateRequest struct {
 /* ----------------------------- Address Request ---------------------------- */
 
 type CreateAddressRequest struct {
-	UserID     string `json:"user_id"`
+	UserID     string `json:"-"`
 	Title      string `json:"title" validate:"omitempty,max=100,alpha"`
 	Street     string `json:"street" validate:"omitempty,max=100,alpha"`
 	Country    string `json:"country" validate:"omitempty,max=100,alpha"`
@@ -41,7 +41,7 @@ type CreateAddressRequest struct {
 
 type UpdateAddressRequest struct {
 	ID         uint   `json:"id"`
-	UserID     string `json:"user_id"`
+	UserID     string `json:"-"`
 	Title      string `json:"title" validate:"omitempty,max=100,alpha"`
 	Street     string `json:"street" validate:"omitempty,max=100,alpha"`
 	Country    string `json:"country" validate:"omitempty,max=100,alpha"`
@@ -50,11 +50,11 @@ type UpdateAddressRequest struct {
 }
 
 type DeleteAddressRequest struct {
-	UserID string `json:"user_id" validate:"required"`
+	UserID string `json:"-"`
 	ID     uint   `json:"id" validate:"required,gt=0"`
 }
 
 type FindAddressRequest struct {
-	UserID string `json:"user_id"`
+	UserID string `json:"-"`
 	ID     uint   `json:"id"`
 }

@@ -33,22 +33,40 @@ Store API is a RESTful API built with Go (Golang) for managing store data, inclu
 3. Set up environment variables: `config.yaml`
     ```yml
     server:
-     Host: "<YOUR_SERVER_HOST>"
-     Port: "<YOUR_SERVER_PORT>"
-     JWTSecretKey: "<YOUR_JWT_SECRET_KEY>"
+    Host: "<YOUR_SERVER_HOST>"
+    Port: "<YOUR_SERVER_PORT>"
+    JWTSecretKey: "<YOUR_JWT_SECRET_KEY>"
 
-   database:
-     Host: "<DATABASE_HOST>"
-     Port: "<DATABASE_PORT>"
-     User: "<DATABASE_USERNAME>"
-     Password: "<DATABASE_PASSWORD>"
-     NameDB: "<DATABASE_NAME>"
+  postgres:
+      Host: "<DATABASE_HOST>"
+      Port: "<DATABASE_PORT>"
+      User: "<DATABASE_USERNAME>"
+      Password: "<DATABASE_PASSWORD>"
+      NameDB: "<DATABASE_NAME>"
 
-   aws:
-     Endpoint: "<AWS_ENDPOINT>"
-     MinioAccessKey: "<MINIO_ACCESS_KEY>"
-     MinioSecretKey: "<MINIO_SECRET_KEY>"
-     UseSSL: true/false
+  aws:
+      Endpoint: "<AWS_ENDPOINT>"
+      MinioAccessKey: "<MINIO_ACCESS_KEY>"
+      MinioSecretKey: "<MINIO_SECRET_KEY>"
+      UseSSL: true/false 
+
+  redis:
+      Host: "<REDIS_HOST>"
+      Port: "<REDIS_PORT>"
+      Password: "<REDIS_PASSWORD>"
+      Db: "<REDIS_DB>"
+
+  mail:
+      Host: "<MAIL_HOST>"
+      Port: "<MAIL_PORT>"
+      User: "<MAIL_USERNAME>"
+      Password: "<MAIL_PASSWORD>"
+
+  logger:
+      Level: "<LOG_LEVEL>"
+      Caller: "<LOG_CALLER>"
+      Encoding: "<LOG_ENCODING>"
+      Development: true/false
     ```
 
 4. Run the application:

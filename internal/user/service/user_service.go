@@ -25,6 +25,7 @@ func NewUserService(cfg *config.Config, pgRepo user.UserPostgresRepository, awsR
 func (user *UserServiceImpl) UpdateUser(ctx context.Context, entity *dto.UserUpdateRequest) (*dto.UserResponse, error) {
 
 	request := &model.User{
+		UserID:      entity.UserID,
 		FirstName:   entity.FirstName,
 		LastName:    entity.LastName,
 		Email:       entity.Email,
