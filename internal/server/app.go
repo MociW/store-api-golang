@@ -80,7 +80,7 @@ func (s *Server) Bootstrap() error {
 	product.Delete("/:id", ProductController.DeleteProduct)
 	product.Put("/:id", ProductController.UpdateProduct)
 
-	product.Get("/:id", SkuController.ListSKU)
+	product.Get("/:id/skus", SkuController.ListSKU)
 	product.Get("/:id/skus/:sku_id", SkuController.FindSKU)
 	product.Post("/:id/skus", SkuController.CreateSKU)
 	product.Delete("/:id/skus/:sku_id", SkuController.DeleteSKU)

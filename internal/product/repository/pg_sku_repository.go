@@ -83,7 +83,7 @@ func (r *ProductSKURepositoryImpl) ListSKU(ctx context.Context, entity *model.Pr
 	var skus []model.ProductSKU
 	tx := r.DB.WithContext(ctx)
 
-	if err := tx.Where("user_id = ?", entity).Find(&skus).Error; err != nil {
+	if err := tx.Where("user_id = ? AND product_id = ?", entity.UserID, entity.ProductID).Find(&skus).Error; err != nil {
 		return nil, errors.Wrap(err, "ProductRepository.List.ListProduct")
 	}
 

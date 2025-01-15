@@ -3,6 +3,7 @@ package controller
 import (
 	"encoding/json"
 	"log"
+	"strconv"
 
 	"github.com/MociW/store-api-golang/internal/product"
 	"github.com/MociW/store-api-golang/internal/product/model"
@@ -116,8 +117,16 @@ func (product *ProductControllerImpl) DeleteProduct(c *fiber.Ctx) error {
 		})
 	}
 
+	productID, err := strconv.ParseUint(c.Params("id"), 10, 32)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ApiProductResponse{
+			Status:  fiber.StatusUnauthorized,
+			Message: "Invalid user ID in token",
+		})
+	}
+
 	request := new(dto.ProductDeleteRequest)
-	err := c.BodyParser(request)
+	err = c.BodyParser(request)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(dto.ApiProductResponse{
 			Status:  fiber.StatusBadRequest,
@@ -126,6 +135,7 @@ func (product *ProductControllerImpl) DeleteProduct(c *fiber.Ctx) error {
 	}
 
 	request.UserID = userID
+	request.ID = uint(productID)
 
 	err = product.productService.DeleteProduct(c.UserContext(), request)
 	if err != nil {
@@ -165,8 +175,16 @@ func (product *ProductControllerImpl) UpdateProduct(c *fiber.Ctx) error {
 		})
 	}
 
+	productID, err := strconv.ParseUint(c.Params("id"), 10, 32)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ApiProductResponse{
+			Status:  fiber.StatusUnauthorized,
+			Message: "Invalid user ID in token",
+		})
+	}
+
 	request := new(dto.ProductUpdateRequest)
-	err := c.BodyParser(request)
+	err = c.BodyParser(request)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(dto.ApiProductResponse{
 			Status:  fiber.StatusBadRequest,
@@ -175,6 +193,7 @@ func (product *ProductControllerImpl) UpdateProduct(c *fiber.Ctx) error {
 	}
 
 	request.UserID = userID
+	request.ID = uint(productID)
 
 	response, err := product.productService.UpdateProduct(c.UserContext(), request)
 
@@ -216,8 +235,16 @@ func (product *ProductControllerImpl) FindProduct(c *fiber.Ctx) error {
 		})
 	}
 
+	productID, err := strconv.ParseUint(c.Params("id"), 10, 32)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ApiProductResponse{
+			Status:  fiber.StatusUnauthorized,
+			Message: "Invalid user ID in token",
+		})
+	}
+
 	request := new(dto.ProductFindRequest)
-	err := c.BodyParser(request)
+	err = c.BodyParser(request)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(dto.ApiProductResponse{
 			Status:  fiber.StatusBadRequest,
@@ -226,6 +253,7 @@ func (product *ProductControllerImpl) FindProduct(c *fiber.Ctx) error {
 	}
 
 	request.UserID = userID
+	request.ID = uint(productID)
 
 	response, err := product.productService.FindProduct(c.UserContext(), request)
 	if err != nil {

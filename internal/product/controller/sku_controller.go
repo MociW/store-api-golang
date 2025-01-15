@@ -194,18 +194,15 @@ func (product *ProductSKUContollerImpl) ListSKU(c *fiber.Ctx) error {
 		})
 	}
 
-	request := new(dto.ProductSKUListRequest)
-	err := c.BodyParser(request)
+	productID, err := strconv.ParseUint(c.Params("id"), 10, 32)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(dto.ApiProductResponse{
-			Status:  fiber.StatusBadRequest,
-			Message: "Invalid request payload",
+			Status:  fiber.StatusUnauthorized,
+			Message: "Invalid user ID in token",
 		})
 	}
 
-	request.UserID = userID
-
-	response, err := product.SKUService.ListSKU(c.UserContext(), request.ProductID, request.UserID)
+	response, err := product.SKUService.ListSKU(c.UserContext(), uint(productID), userID)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ApiProductResponse{
 			Status:  fiber.StatusInternalServerError,

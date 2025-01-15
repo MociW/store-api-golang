@@ -68,6 +68,6 @@ type ProductSKUFindRequest struct {
 }
 
 type ProductSKUListRequest struct {
-	ProductID uint   `json:"product_id"`
+	ProductID uint   `json:"-"`
 	UserID    string `json:"-"`
 }
